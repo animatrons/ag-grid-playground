@@ -1,0 +1,37 @@
+<app-gird-wrapper [title]="'Restaurants grid (View only)'">
+  <section controls class="flex flex-start gap-2">
+    <button mat-stroked-button (click)="clearSelection()" class="flex-form-button">Clear Selection</button>
+    <mat-form-field appearance="outline">
+      <mat-label for="size" >Page size</mat-label>
+      <mat-select id="size" (valueChange)="changePageSize($event)">
+        <mat-option [value]="defaultPageSize"> {{defaultPageSize}} </mat-option>
+        <mat-option [value]="10"> {{10}} </mat-option>
+        <mat-option [value]="20"> {{20}} </mat-option>
+        <mat-option [value]="30"> {{30}} </mat-option>
+        <mat-option [value]="40"> {{40}} </mat-option>
+        <mat-option [value]="50"> {{50}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+  <ag-grid-angular
+    grids
+    class="ag-theme-balham grid-w-100"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    [pagination]="true"
+    [paginationPageSize]="paginationPageSize"
+    [cacheBlockSize]="paginationPageSize"
+    [maxConcurrentDatasourceRequests]="2"
+    [cacheOverflowSize]="2"
+    [maxBlocksInCache]="100"
+    [rowSelection]="rowSelection"
+
+    [domLayout]="'autoHeight'"
+
+    (gridReady)="onGridReady($event)"
+    (gridColumnsChanged)="sizeColsToFit()"
+    (cellClicked)="onCellClicked($event)"
+  >
+  </ag-grid-angular>
+</app-gird-wrapper>

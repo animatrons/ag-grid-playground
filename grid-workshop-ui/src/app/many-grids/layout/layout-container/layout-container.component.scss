@@ -1,0 +1,35 @@
+.main-container {
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+.main-content {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.sidenav {
+  min-width: 250px;
+}
+
+header {
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  div {
+    flex-grow: 1;
+    margin: 0;
+    margin-top: 12px;
+    margin-right: 15px;
+  }
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  padding: 1em;
+  display: flex;
+  flex-grow: 1;
+}

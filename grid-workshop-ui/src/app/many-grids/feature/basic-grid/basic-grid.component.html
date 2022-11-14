@@ -1,0 +1,17 @@
+<app-gird-wrapper [title]="'Basic grid'">
+  <button controls mat-stroked-button (click)="clearSelection()" >Clear Selection</button>
+  <ag-grid-angular
+    grids
+    class="ag-theme-balham grid-100"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowData]="rowData$ | async"
+    [rowSelection]="'multiple'"
+    [animateRows]="true"
+
+    (gridReady)="onGridReady($event)"
+    (gridColumnsChanged)="sizeColsToFit()"
+    (cellClicked)="onCellClicked($event)"
+    >
+  </ag-grid-angular>
+</app-gird-wrapper>

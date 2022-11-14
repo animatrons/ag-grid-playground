@@ -1,0 +1,22 @@
+<mat-drawer-container class="main-container">
+  <mat-drawer [(opened)]="opened" class="sidenav" mode="side" disableClose="true" opened >
+    <app-side-nav></app-side-nav>
+  </mat-drawer>
+
+  <div class="main-content">
+    <header>
+      <button type="button" mat-button (click)="toggleDrawer()">
+        <mat-icon *ngIf="opened" aria-hidden="false" aria-label="Example home icon">
+          arrow_back_ios</mat-icon>
+        <mat-icon *ngIf="!opened" aria-hidden="false" aria-label="Example home icon">
+          arrow_forward_ios</mat-icon>
+      </button>
+    </header>
+
+    <div class="content">
+      <ng-content>
+
+      </ng-content>
+    </div>
+  </div>
+</mat-drawer-container>

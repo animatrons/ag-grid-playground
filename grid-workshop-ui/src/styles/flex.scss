@@ -1,0 +1,49 @@
+.flex {
+  display: flex;
+}
+
+.between {
+  justify-content: space-between;
+}
+
+.flex-start {
+  // justify-content: start;
+  align-items: flex-start;
+}
+
+.ailgn-items-center {
+  align-items: center;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-3 {
+  flex: 1 0 31%;
+}
+
+.gap-2 {
+  gap: 20px
+}
+
+// .flex-form-button {
+//   margin-top: 0.3em !important;
+//   padding: 1.55em 0 !important;
+//   line-height: 1.125 !important;
+// }

@@ -1,0 +1,49 @@
+<div class="wrapper">
+
+  <mat-card>
+    GRID - WORKSHOP
+  </mat-card>
+
+  <div class="container">
+    <mat-nav-list>
+
+      <a mat-list-item (click)="expandBasic = !expandBasic">
+        <mat-icon mat-list-icon>table</mat-icon>
+        <h4 mat-line>Basic Grids</h4>
+        <mat-icon class="expand-icon" [ngClass]="{'rotated' : expandBasic}">
+          expand_more
+        </mat-icon>
+      </a>
+      <div [ngClass]="{'expanded': expandBasic}" [hidden]="!expandBasic" class="submenu">
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/basic-grid">
+          <mat-icon mat-list-icon>table</mat-icon>
+          <h4 mat-line>Basic Grid</h4>
+        </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/basic-grid-plus">
+          <mat-icon mat-list-icon>table</mat-icon>
+          <h4 mat-line>Basic Grid +</h4>
+        </a>
+      </div>
+
+      <a mat-list-item (click)="expandRestaurants = !expandRestaurants">
+        <mat-icon mat-list-icon>table</mat-icon>
+        <h4 mat-line>Restaurants Grids</h4>
+        <mat-icon class="expand-icon" [ngClass]="{'rotated' : expandRestaurants}">
+          expand_more
+        </mat-icon>
+      </a>
+      <div [ngClass]="{'expanded': expandRestaurants}" [hidden]="!expandRestaurants" class="submenu">
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/view">
+          <mat-icon mat-list-icon>table</mat-icon>
+          <h4 mat-line>View Restaurants</h4>
+        </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/view">
+          <mat-icon mat-list-icon>table</mat-icon>
+          <h4 mat-line>Manage Restaurants</h4>
+        </a>
+      </div>
+
+
+    </mat-nav-list>
+  </div>
+</div>

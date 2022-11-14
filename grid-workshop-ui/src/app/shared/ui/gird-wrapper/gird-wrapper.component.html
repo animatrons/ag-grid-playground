@@ -1,0 +1,14 @@
+<mat-card class="scene flex-column flex-gap-2">
+  <h1>{{title}}</h1>
+
+  <div>
+    <ng-content select="[controls]">
+
+    </ng-content>
+  </div>
+  <div class="grid-content flex">
+    <ng-content select="[grids]">
+
+    </ng-content>
+  </div>
+</mat-card>
