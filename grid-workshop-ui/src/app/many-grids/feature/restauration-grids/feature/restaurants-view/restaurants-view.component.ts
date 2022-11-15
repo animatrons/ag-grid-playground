@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CellClickedEvent, ColDef, Column, ColumnApi, GridApi, GridOptions, GridParams, GridReadyEvent, IDatasource, IGetRowsParams, IServerSideDatasource, IServerSideGetRowsParams } from 'ag-grid-community';
 import { Restaurant } from '../../data/models/restaurant.model';
@@ -11,14 +11,16 @@ import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/
 import { BasicDefaultColDef, RestaurantViewColDefs } from '../../data/models/restaurant.columns';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
+import { ResizeService } from 'src/app/shared/util/resize.service';
 
 @Component({
   selector: 'app-restaurants-view',
   templateUrl: './restaurants-view.component.html',
   styleUrls: ['./restaurants-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ResizeService]
 })
-export class RestaurantsViewComponent implements OnInit {
+export class RestaurantsViewComponent implements OnInit, OnDestroy {
 
   private gridApi!: GridApi;
   private gridColumnApi?: ColumnApi;
@@ -41,12 +43,8 @@ export class RestaurantsViewComponent implements OnInit {
 
   @HostBinding('style.flex-grow')
   flexGrow = '1';
-  @HostListener('window:resize', ['$event'])
-  onWindowResize() {
-    this.sizeColsToFit();
-  }
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>, private el: ElementRef, private resizeService: ResizeService) {
     this.page$ = this.store.pipe(select(fromRestaurants.selectRestaurantsView));
     this.status$ = this.store.pipe(select(fromRestaurants.selectCurrentViewStatus))
   }
@@ -59,6 +57,13 @@ export class RestaurantsViewComponent implements OnInit {
         loadingMessage: 'Loading...'
       }
     }
+    this.resizeService.addResizeEventListener(this.el.nativeElement, (elem: any) => {
+      this.sizeColsToFit();
+    });
+  }
+
+  ngOnDestroy() {
+    this.resizeService.removeResizeEventListener(this.el.nativeElement);
   }
 
   onGridReady(params: GridReadyEvent<Restaurant>) {
@@ -109,6 +114,7 @@ export class RestaurantsViewComponent implements OnInit {
   sizeColsToFit() {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
+      // this.gridColumnApi?.autoSizeAllColumns();
     }
   }
 
