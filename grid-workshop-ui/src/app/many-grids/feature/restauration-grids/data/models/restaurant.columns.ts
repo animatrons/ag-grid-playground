@@ -1,4 +1,5 @@
 import { ColDef, ColGroupDef } from "ag-grid-community";
+import { LinkCellComponent } from "src/app/shared/ui/ag-grid-internal/components/link-cell/link-cell.component";
 import { Restaurant } from "./restaurant.model";
 
 export const BasicDefaultColDef: ColDef<Restaurant> = {
@@ -24,6 +25,16 @@ export const BasicDefaultColDef: ColDef<Restaurant> = {
 }
 
 export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
+  {
+    'field': '',
+    'filter': false,
+    'cellRenderer': LinkCellComponent,
+    'floatingFilter': true,
+    'width': 20,
+    'cellRendererParams': {
+      'urlField': 'URL'
+    }
+  },
   {
     'field': 'name',
   },
@@ -65,18 +76,22 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
   },
   {
     'headerName': 'Codes',
+
+    // 'suppressAutoSize': true,
     'children': [
       {
         'field': 'outcode',
         'columnGroupShow': 'closed open',
         'width': 80,
-        'filter': false
+        'suppressSizeToFit': true,
+        'filter': false,
       },
       {
         'field': 'postcode',
         'columnGroupShow': 'open',
         'width': 80,
-        'filter': false
+        'suppressSizeToFit': true,
+        'filter': false,
       }
     ]
   },
