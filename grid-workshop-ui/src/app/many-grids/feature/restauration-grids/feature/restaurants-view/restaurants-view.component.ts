@@ -10,12 +10,13 @@ import { BehaviorSubject, Observable, Subject, take, takeUntil } from 'rxjs';
 import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/dto.model';
 import { BasicDefaultColDef, RestaurantViewColDefs } from '../../data/models/restaurant.columns';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
+import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
 
 @Component({
   selector: 'app-restaurants-view',
   templateUrl: './restaurants-view.component.html',
   styleUrls: ['./restaurants-view.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RestaurantsViewComponent implements OnInit {
 
@@ -30,6 +31,10 @@ export class RestaurantsViewComponent implements OnInit {
   public defaultPageSize = 18;
   public paginationPageSize = this.defaultPageSize;
   public rowSelection: 'multiple' | 'single' = 'multiple';
+
+  public frameworkComponents = {
+    simpleTextColumnFilterComponent: SimpleTextColumnFilterComponent
+  }
 
   public page$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
   public status$
@@ -77,7 +82,7 @@ export class RestaurantsViewComponent implements OnInit {
         }));
         const filter = this.formatColumnFilter(params.filterModel);
         // console.log('Start: ' + params.startRow+ ' End: ' + params.endRow + ' (page):' + page);
-        console.log('Filter and sort: ', filter, sort);
+        console.log('Filter and sort: ', params.filterModel, sort);
 
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
@@ -121,11 +126,12 @@ export class RestaurantsViewComponent implements OnInit {
   }
 
   formatColumnFilter(agFilter: any) {
-    let filter: FilterParams[] = Object.keys(agFilter).map(field => ({
+    let filters: FilterParams[] = Object.keys(agFilter).map(field => ({
       filter_field: field,
+      operator: agFilter[field].type,
       filter_value: agFilter[field].filter
     }))
-    return filter[0]
+    return filters
   }
 
 }

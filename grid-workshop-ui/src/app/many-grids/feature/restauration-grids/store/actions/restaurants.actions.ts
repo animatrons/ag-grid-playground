@@ -22,11 +22,11 @@ export const loadRestaurantsFailure = createAction(
 
 export const getRestaurantsViewPage = createAction(
   '[Restaurants] Begin Load Restaurants View Grid Page',
-  props<{page: number, size: number, sort?: SortParams, filter?: FilterParams}>()
+  props<{page: number, size: number, sort?: SortParams, filter?: FilterParams[]}>()
 );
 export const loadRestaurantsViewPage = createAction(
   '[Restaurants] Load Restaurants View Grid Page',
-  props<{page: number, size: number, sort?: SortParams, filter?: FilterParams}>()
+  props<{page: number, size: number, sort?: SortParams, filter?: FilterParams[]}>()
 );
 export const loadRestaurantsViewPageSuccess = createAction(
   '[Restaurants] Load Restaurants View Grid Page Success',

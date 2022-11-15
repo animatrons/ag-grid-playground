@@ -7,6 +7,7 @@ export interface Pagination<T> {
 
 export interface FilterParams {
   filter_field: string,
+  operator?: string,
   filter_value: string
 }
 

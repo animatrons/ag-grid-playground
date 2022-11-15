@@ -2,6 +2,7 @@ from app.main.util.strings import generate_id
 from app.db.Models.restaurant import Restaurant
 
 from app.main.util.paginator import Paginator
+from app.main.util.filter import build_query
 
 def get_restaurants(args, filters):
         # SORT
@@ -16,15 +17,19 @@ def get_restaurants(args, filters):
     skip = page * size
     
     query = {}
-    if filters:
-        field = filters.get('filter_field', None)
-        value = filters.get('filter_value', None)
-        print(field, value)
-        if value is not None and field is not None:
-            query.update({field: {"$regex": ".*" + value + ".*"}})
-    
-    restaurants = Restaurant().db()
+    # if filters:
+    #     field = filters.get('filter_field') or 'name'
+    #     value = filters.get('filter_value', None)
+    #     print(field, value)
+    #     if value is not None and field is not None:
+    #         query.update({field: {"$regex": ".*" + value + ".*"}})
 
+    queries = build_query(filters)
+    print(queries)
+    for q in queries:
+        query.update(q)
+
+    restaurants = Restaurant().db()
     cursor = restaurants.aggregate([
         {'$match': query},
         sort,
@@ -33,7 +38,6 @@ def get_restaurants(args, filters):
     ])
 
     data = [Restaurant(**entity) for entity in cursor]
-
     total = restaurants.find(query, {'_id': 1}).count()
 
     return Paginator(data, page, size, total), 200
