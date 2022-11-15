@@ -25,6 +25,7 @@
     "@ngrx/store-devtools": "^14.3.2",
     "ag-grid-angular": "^28.2.0",
     "ag-grid-community": "^28.2.0",
+    "ag-grid-enterprise": "^28.2.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

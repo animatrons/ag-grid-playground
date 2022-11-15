@@ -9,6 +9,12 @@ export const BasicDefaultColDef: ColDef<Restaurant> = {
   'suppressCellFlash': true,
   // 'suppressMenu': true,
   'filter': 'agTextColumnFilter',
+
+  'floatingFilter': true,
+  'floatingFilterComponent': 'simpleTextColumnFilterComponent',
+  'floatingFilterComponentParams': {
+    suppressFilterButton: true,
+  },
   // floatingFilterComponent: 'defaultFilterComponent',
   // headerComponent: 'sortableHeaderComponent',
   // filterParams: { /* buttons: ['apply'] */ debounceMs: 1000 },
@@ -24,6 +30,7 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
   {
     'field': 'type_of_food',
     'headerName': 'Type of Food',
+    'width': 100
   },
   {
     'headerName': 'Address',
@@ -42,7 +49,9 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
   },
   {
     'field': 'rating',
-    'filter': 'agNumberColumnFilter'
+    'filter': 'agNumberColumnFilter',
+    'floatingFilter': false,
+    'width': 90
   },
   {
     'field': 'URL',
@@ -60,13 +69,13 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
       {
         'field': 'outcode',
         'columnGroupShow': 'closed open',
-        'width': 70,
+        'width': 80,
         'filter': false
       },
       {
         'field': 'postcode',
         'columnGroupShow': 'open',
-        'width': 70,
+        'width': 80,
         'filter': false
       }
     ]

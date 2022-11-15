@@ -45,7 +45,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AgGridModule } from 'ag-grid-angular';
+
 import { GirdWrapperComponent } from './ui/gird-wrapper/gird-wrapper.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const modules = [
   CommonModule,
@@ -94,8 +96,10 @@ const modules = [
   MatSelectModule,
   ScrollingModule,
   MatFormFieldModule,
+  FormsModule,
 
   AgGridModule,
+  ReactiveFormsModule
 ]
 
 @NgModule({
