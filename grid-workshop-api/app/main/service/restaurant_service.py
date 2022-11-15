@@ -17,13 +17,6 @@ def get_restaurants(args, filters):
     skip = page * size
     
     query = {}
-    # if filters:
-    #     field = filters.get('filter_field') or 'name'
-    #     value = filters.get('filter_value', None)
-    #     print(field, value)
-    #     if value is not None and field is not None:
-    #         query.update({field: {"$regex": ".*" + value + ".*"}})
-
     queries = build_query(filters)
     print(queries)
     for q in queries:
