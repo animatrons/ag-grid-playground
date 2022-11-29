@@ -1,34 +1,33 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, Column, ColumnApi, GridApi, GridOptions, GridParams, GridReadyEvent, IDatasource, IGetRowsParams, IServerSideDatasource, IServerSideGetRowsParams } from 'ag-grid-community';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { IGridWithPaginationState, State } from 'src/app/store/reducers';
+import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams, RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
+import { ResizeService } from 'src/app/shared/util/resize.service';
+import { RestaurantViewColDefs, BasicDefaultColDef, RestaurantGroupsColDefs } from '../../data/models/restaurant.columns';
 import { Restaurant } from '../../data/models/restaurant.model';
 
 import * as fromRestaurants from '../../store/selectors/restaurants.selectors';
 import * as restaurantsActions from '../../store/actions/restaurants.actions';
-import { IGridWithPaginationState, State } from 'src/app/store/reducers';
-import { BehaviorSubject, Observable, Subject, take, takeUntil } from 'rxjs';
-import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/dto.model';
-import { BasicDefaultColDef, RestaurantViewColDefs } from '../../data/models/restaurant.columns';
-import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
-import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
-import { ResizeService } from 'src/app/shared/util/resize.service';
+import { SortParams } from 'src/app/shared/data/model/dto.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
+import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 
 @Component({
-  selector: 'app-restaurants-view',
-  templateUrl: './restaurants-view.component.html',
-  styleUrls: ['./restaurants-view.component.scss'],
+  selector: 'app-restaurants-groups',
+  templateUrl: './restaurants-groups.component.html',
+  styleUrls: ['./restaurants-groups.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ResizeService]
 })
-export class RestaurantsViewComponent implements OnInit, OnDestroy {
+export class RestaurantsGroupsComponent implements OnInit {
 
   private gridApi!: GridApi;
   private gridColumnApi?: ColumnApi;
   public gridOptions!: GridOptions;
 
-  public columnDefs: ColDef<Restaurant>[] = RestaurantViewColDefs;
-  // public autoGroupColumnDef;
+  public columnDefs: ColDef<Restaurant>[] = RestaurantGroupsColDefs;
   public defaultColDef: ColDef = BasicDefaultColDef;
 
   public defaultPageSize = 18;
@@ -41,6 +40,8 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
 
   public page$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
   public status$
+
+  private selectAll = false;
 
   @HostBinding('style.flex-grow')
   flexGrow = '1';
@@ -63,16 +64,13 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.resizeService.removeResizeEventListener(this.el.nativeElement);
-  }
-
   onGridReady(params: GridReadyEvent<Restaurant>) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
     const dataSource =  this.createDataSource();
     this.gridApi.setDatasource(dataSource);
+    this.handleSelectAllEvents();
   }
 
   createDataSource(): IDatasource {
@@ -119,17 +117,34 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCellClicked(e: CellClickedEvent) {
-    console.log('Cell clicked ', e);
-  }
-
   clearSelection() {
     this.gridApi.deselectAll();
   }
 
-  changePageSize($size: number) {
-    // console.log('Page size changed', $size);
-    this.gridApi.paginationSetPageSize($size)
+  handleSelectAllEvents() {
+    this.gridApi.addEventListener('headerCheckboxSelected', (e: any) => {
+      console.log('headerCheckboxSelected', e);
+      this.selectAll = true;
+      this.gridApi.forEachNode(node => {
+        node.selectThisNode(true);
+      })
+    });
+    this.gridApi.addEventListener('headerUnCheckboxSelected', (e: any) => {
+      console.log('headerUnCheckboxSelected', e);
+      this.selectAll = false;
+      this.gridApi.forEachNode(node => {
+        node.selectThisNode(false);
+      })
+    });
+  }
+
+  onSelectionChanged($event: SelectionChangedEvent<Restaurant>) {
+
+  }
+
+  onRowSelected($event: RowSelectedEvent<Restaurant>) {
+    console.log('Selected', $event);
+
   }
 
 }

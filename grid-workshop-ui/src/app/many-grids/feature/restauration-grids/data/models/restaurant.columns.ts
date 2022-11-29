@@ -1,4 +1,5 @@
 import { ColDef, ColGroupDef } from "ag-grid-community";
+import { CheckboxHeaderComponent } from "src/app/shared/ui/ag-grid-internal/components/checkbox-header/checkbox-header.component";
 import { LinkCellComponent } from "src/app/shared/ui/ag-grid-internal/components/link-cell/link-cell.component";
 import { Restaurant } from "./restaurant.model";
 
@@ -26,14 +27,15 @@ export const BasicDefaultColDef: ColDef<Restaurant> = {
 
 export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
   {
-    'field': '',
+    'field': 'link',
     'filter': false,
     'cellRenderer': LinkCellComponent,
-    'floatingFilter': true,
+    'floatingFilter': false,
     'width': 20,
     'cellRendererParams': {
       'urlField': 'URL'
-    }
+    },
+    'sortable': false,
   },
   {
     'field': 'name',
@@ -95,4 +97,19 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
       }
     ]
   },
+]
+
+export const RestaurantGroupsColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
+  {
+    'field': 'select_all',
+    'headerName': '',
+    'filter': false,
+    'floatingFilter': false,
+    'width': 20,
+    'headerCheckboxSelection': true,
+    'checkboxSelection': true,
+    'sortable': false,
+    'headerComponent': CheckboxHeaderComponent
+  },
+  ...RestaurantViewColDefs
 ]

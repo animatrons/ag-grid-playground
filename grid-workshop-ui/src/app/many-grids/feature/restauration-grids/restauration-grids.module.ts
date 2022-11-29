@@ -10,12 +10,14 @@ import { RestaurantsEffects } from './store/effects/restaurants.effects';
 import { RestaurantsViewComponent } from './feature/restaurants-view/restaurants-view.component';
 import { AgGridInternalModule } from 'src/app/shared/ui/ag-grid-internal/ag-grid-internal.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RestaurantsGroupsComponent } from './feature/restaurants-groups/restaurants-groups.component';
 
 
 @NgModule({
   declarations: [
     RestaurationGridsComponent,
     RestaurantsViewComponent,
+    RestaurantsGroupsComponent,
   ],
   imports: [
     CommonModule,
