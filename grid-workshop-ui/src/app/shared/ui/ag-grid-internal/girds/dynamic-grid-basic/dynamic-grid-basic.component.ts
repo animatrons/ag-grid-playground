@@ -32,8 +32,10 @@ export class DynamicGridBasicComponent extends DynamicGrid implements OnInit, On
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['rowData']) {
+      // console.log(this.rowData)
       if (this.gridApi) {
-        // this.gridApi.refreshClientSideRowModel();
+        // this.gridApi.showLoadingOverlay();
+        this.gridApi.setRowData(this.rowData ?? []);
       }
     }
   }
@@ -42,7 +44,6 @@ export class DynamicGridBasicComponent extends DynamicGrid implements OnInit, On
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.gridApi.sizeColumnsToFit();
-    // this.gridApi.setRowData(this.rowData);
 
     this.gridReady.emit(params);
   }
