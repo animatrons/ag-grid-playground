@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BasicGridPlusRoutingModule } from './basic-grid-plus-routing.module';
 import { BasicGridPlusComponent } from './basic-grid-plus.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AgGridInternalModule } from 'src/app/shared/ui/ag-grid-internal/ag-grid-internal.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     BasicGridPlusRoutingModule,
-    SharedModule
+    AgGridInternalModule,
+    SharedModule,
   ]
 })
 export class BasicGridPlusModule { }

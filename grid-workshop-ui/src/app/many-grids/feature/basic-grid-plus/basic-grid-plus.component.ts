@@ -1,6 +1,6 @@
 import { Component, HostBinding, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/shared/data/data.service';
 import { OlympicData, olymColumnDefs } from 'src/app/shared/data/model/data.models';
@@ -15,11 +15,9 @@ export class BasicGridPlusComponent implements OnInit {
   constructor(private dataService: DataService) { }
   @HostBinding('style.flex-grow')
   flexGrow = '1';
-  @HostListener('window:resize', ['$event'])
-  onWindowResize() {
-    this.sizeColsToFit();
-  }
 
+
+  private gridApi!: GridApi;
   public columnDefs: ColDef[] = olymColumnDefs;
 
   public defaultColDef: ColDef = {
@@ -32,10 +30,11 @@ export class BasicGridPlusComponent implements OnInit {
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
 
   ngOnInit(): void {
+    this.rowData$ = this.dataService.loadOlympicData();
   }
 
   onGridReady(params: GridReadyEvent) {
-    this.rowData$ = this.dataService.loadOlympicData();
+    this.gridApi = params.api;
   }
 
   onCellClicked(e: CellClickedEvent) {
@@ -43,11 +42,7 @@ export class BasicGridPlusComponent implements OnInit {
   }
 
   clearSelection() {
-    this.agGrid.api.deselectAll();
-  }
-
-  sizeColsToFit() {
-    this.agGrid.api.sizeColumnsToFit();
+    this.gridApi.deselectAll();
   }
 
 }

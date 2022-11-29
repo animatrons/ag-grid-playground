@@ -6,6 +6,10 @@ import { LoadingSpinnerOverlayComponent } from './components/loading-spinner-ove
 import { SharedModule } from '../../shared.module';
 import { SimpleTextColumnFilterComponent } from './components/simple-text-column-filter/simple-text-column-filter.component';
 import { LinkCellComponent } from './components/link-cell/link-cell.component';
+import { CheckboxHeaderComponent } from './components/checkbox-header/checkbox-header.component';
+import { DynamicGridBasicComponent } from './girds/dynamic-grid-basic/dynamic-grid-basic.component';
+import { DynamicGridInfiniteComponent } from './girds/dynamic-grid-infinite/dynamic-grid-infinite.component';
+
 
 
 @NgModule({
@@ -13,6 +17,9 @@ import { LinkCellComponent } from './components/link-cell/link-cell.component';
     LoadingSpinnerOverlayComponent,
     SimpleTextColumnFilterComponent,
     LinkCellComponent,
+    CheckboxHeaderComponent,
+    DynamicGridBasicComponent,
+    DynamicGridInfiniteComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +28,9 @@ import { LinkCellComponent } from './components/link-cell/link-cell.component';
   ],
   exports: [
     LoadingSpinnerOverlayComponent,
-    SimpleTextColumnFilterComponent
+    SimpleTextColumnFilterComponent,
+    DynamicGridBasicComponent,
+    DynamicGridInfiniteComponent,
   ]
 })
 export class AgGridInternalModule { }

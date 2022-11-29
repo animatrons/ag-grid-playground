@@ -1,0 +1,21 @@
+<ag-grid-angular style="width: 100%; height: 100%;"
+    class="ag-theme-balham grid-100"
+    [gridOptions]="gridOptions"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="colDefs"
+    [animateRows]="true"
+    [suppressRowClickSelection]="true"
+    [pivotPanelShow]="pivotPanelShow"
+    [rowSelection]="rowSelection"
+    [enableCellChangeFlash]="true"
+    [frameworkComponents]="frameworkComponents"
+    [suppressContextMenu]="true"
+
+    [rowData]="rowData"
+
+    (rowSelected)="onSelectRow($event)"
+    (gridReady)="onGridReady($event)"
+    (cellClicked)="onCellClicked($event)"
+    (gridColumnsChanged)="onGridColumnsChanged($event)"
+  >
+  </ag-grid-angular>
