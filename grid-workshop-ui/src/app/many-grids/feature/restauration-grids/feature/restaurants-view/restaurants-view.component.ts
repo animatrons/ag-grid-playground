@@ -9,8 +9,8 @@ import { IGridWithPaginationState, State } from 'src/app/store/reducers';
 import { BehaviorSubject, Observable, Subject, take, takeUntil } from 'rxjs';
 import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/dto.model';
 import { BasicDefaultColDef, RestaurantViewColDefs } from '../../data/models/restaurant.columns';
-import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
-import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
+import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
+import { SimpleTextColumnFilterComponent } from 'src/app/shared/feature/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
 import { ResizeService } from 'src/app/shared/util/resize.service';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
 

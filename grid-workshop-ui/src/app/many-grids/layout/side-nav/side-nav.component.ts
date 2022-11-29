@@ -12,6 +12,8 @@ export class SideNavComponent implements OnInit {
 
   expandBasic = true;
   expandRestaurants = true;
+
+  expandGeneric = false;
   constructor() { }
 
   ngOnInit(): void {

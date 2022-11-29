@@ -8,13 +8,15 @@ export class DynamicGrid<T = any> {
   @Input() colDefs: (ColDef | ColGroupDef)[] = [];
   @Input() defaultColDef: ColDef = {};
   @Input() rowData: T[] | null = null;
-
-  @Input() rowData$: T[] | null = null;
+  // @Input() rowData$: T[] | null = null;
   @Input() gridOptions: GridOptions = {};
   @Input() frameworkComponents: any;
   @Input() rowSelection: 'multiple' | 'single' = 'multiple';
   @Input() pivotPanelShow: 'always' | 'onlyWhenPivoting' | 'never' | undefined = 'always';
   @Input() animateRows = true;
+
+  @Input() public triggerChange: any = {};
+  @Input() public MAX_PAGE_SIZE = 50;
 
   @Output() gridReady = new EventEmitter<GridReadyEvent>();
   @Output() selectionChanged = new EventEmitter<RowNode[]>();

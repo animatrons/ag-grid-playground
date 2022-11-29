@@ -1,6 +1,6 @@
 import { ColDef, ColGroupDef } from "ag-grid-community";
-import { CheckboxHeaderComponent } from "src/app/shared/ui/ag-grid-internal/components/checkbox-header/checkbox-header.component";
-import { LinkCellComponent } from "src/app/shared/ui/ag-grid-internal/components/link-cell/link-cell.component";
+import { CheckboxHeaderComponent } from "src/app/shared/feature/ag-grid-internal/components/checkbox-header/checkbox-header.component";
+import { LinkCellComponent } from "src/app/shared/feature/ag-grid-internal/components/link-cell/link-cell.component";
 import { Restaurant } from "./restaurant.model";
 
 export const BasicDefaultColDef: ColDef<Restaurant> = {

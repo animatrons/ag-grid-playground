@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { IGridWithPaginationState, State } from 'src/app/store/reducers';
 import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams, RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { SimpleTextColumnFilterComponent } from 'src/app/shared/ui/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
+import { SimpleTextColumnFilterComponent } from 'src/app/shared/feature/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
 import { ResizeService } from 'src/app/shared/util/resize.service';
 import { RestaurantViewColDefs, BasicDefaultColDef, RestaurantGroupsColDefs } from '../../data/models/restaurant.columns';
 import { Restaurant } from '../../data/models/restaurant.model';
@@ -12,7 +12,7 @@ import * as fromRestaurants from '../../store/selectors/restaurants.selectors';
 import * as restaurantsActions from '../../store/actions/restaurants.actions';
 import { SortParams } from 'src/app/shared/data/model/dto.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
-import { LoadingSpinnerOverlayComponent } from 'src/app/shared/ui/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
+import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 
 @Component({
   selector: 'app-restaurants-groups',

@@ -8,7 +8,7 @@ import * as fromRestaurants from './store/reducers/restaurants.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { RestaurantsEffects } from './store/effects/restaurants.effects';
 import { RestaurantsViewComponent } from './feature/restaurants-view/restaurants-view.component';
-import { AgGridInternalModule } from 'src/app/shared/ui/ag-grid-internal/ag-grid-internal.module';
+import { AgGridInternalModule } from 'src/app/shared/feature/ag-grid-internal/ag-grid-internal.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RestaurantsGroupsComponent } from './feature/restaurants-groups/restaurants-groups.component';
 
