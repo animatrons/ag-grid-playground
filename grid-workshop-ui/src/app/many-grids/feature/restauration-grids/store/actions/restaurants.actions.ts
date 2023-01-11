@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/dto.model';
-import { Restaurant } from '../../data/models/restaurant.model';
+import { Restaurant, RestaurantGroup, RestaurantGroupDto } from '../../data/models/restaurant.model';
 
 export const getRestaurants = createAction(
   '[Restaurants] Begin Load Restaurants'
@@ -20,6 +20,7 @@ export const loadRestaurantsFailure = createAction(
   props<{ error: any }>()
 );
 
+// Pagination
 export const getRestaurantsViewPage = createAction(
   '[Restaurants] Begin Load Restaurants View Grid Page',
   props<{page: number, size: number, sort?: SortParams, filter?: FilterParams[]}>()

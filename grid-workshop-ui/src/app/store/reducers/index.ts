@@ -8,17 +8,17 @@ import {
 import { environment } from '../../../environments/environment';
 import * as fromRestaurants from '../../many-grids/feature/restauration-grids/store/reducers/restaurants.reducer';
 
-export interface ILoadState {
+export interface ILoadState<T=any> {
   loadStatus: 'NOT_LOADED' | 'LOADING' | 'LOADED';
   error?: any | null;
-  updatedAt: number
+  updatedAt?: number
+  content: T[]
 }
 
-export interface IGridWithPaginationState<T> extends ILoadState {
+export interface IGridWithPaginationState<T=any> extends ILoadState<T> {
   page: number,
   size: number,
   total: number,
-  content: T[]
 }
 
 export interface State {

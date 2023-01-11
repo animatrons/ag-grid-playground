@@ -1,13 +1,15 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { IGridWithPaginationState } from 'src/app/store/reducers';
-import { Restaurant } from '../../data/models/restaurant.model';
+import { IGridWithPaginationState, ILoadState } from 'src/app/store/reducers';
+import { Restaurant, RestaurantGroup } from '../../data/models/restaurant.model';
 import * as RestaurantsActions from '../actions/restaurants.actions';
+import * as RestaurantGroupsActions from '../actions/restaurant-groups.actions';
 
 export const restaurantsFeatureKey = 'restaurants';
 
 
 export interface State {
-  viewGrid: IGridWithPaginationState<Restaurant>
+  viewGrid: IGridWithPaginationState<Restaurant>,
+  groups: ILoadState<RestaurantGroup>,
 }
 
 export const initialState: State = {
@@ -17,9 +19,13 @@ export const initialState: State = {
     total: 0,
     content: [],
     loadStatus: 'NOT_LOADED',
-    updatedAt: Date.now(),
     error: null
-  }
+  },
+  groups: {
+    content: [],
+    loadStatus: 'NOT_LOADED',
+    error: null
+  },
 };
 
 export const reducer = createReducer(
@@ -59,6 +65,31 @@ export const reducer = createReducer(
       error: action.error,
       content: [],
       total: 0
+    }
+  })),
+
+  on(RestaurantGroupsActions.loadAllRestaurantGroups, (state) => ({
+    ...state,
+    groups: {
+      ...state.groups,
+      loadStatus: 'LOADING',
+    }
+  })),
+  on(RestaurantGroupsActions.loadAllRestaurantGroupsSuccess, (state, action) => ({
+    ...state,
+    groups: {
+      ...state.groups,
+      loadStatus: 'LOADED',
+      content: action.groups
+    }
+  })),
+  on(RestaurantGroupsActions.loadAllRestaurantGroupsFailure, (state, action) => ({
+    ...state,
+    groups: {
+      ...state.groups,
+      loadStatus: 'NOT_LOADED',
+      content: [],
+      error: action.error
     }
   })),
 );
