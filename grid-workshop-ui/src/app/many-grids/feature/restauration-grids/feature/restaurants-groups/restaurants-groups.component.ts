@@ -13,6 +13,7 @@ import * as restaurantsActions from '../../store/actions/restaurants.actions';
 import { SortParams } from 'src/app/shared/data/model/dto.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
+import { CheckboxHeaderComponent } from 'src/app/shared/feature/ag-grid-internal/components/checkbox-header/checkbox-header.component';
 
 @Component({
   selector: 'app-restaurants-groups',
@@ -24,7 +25,6 @@ import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-i
 export class RestaurantsGroupsComponent implements OnInit {
 
   private gridApi!: GridApi;
-  private gridColumnApi?: ColumnApi;
   public gridOptions!: GridOptions;
 
   public columnDefs: ColDef<Restaurant>[] = RestaurantGroupsColDefs;
@@ -35,7 +35,8 @@ export class RestaurantsGroupsComponent implements OnInit {
   public rowSelection: 'multiple' | 'single' = 'multiple';
 
   public frameworkComponents = {
-    simpleTextColumnFilterComponent: SimpleTextColumnFilterComponent
+    simpleTextColumnFilterComponent: SimpleTextColumnFilterComponent,
+    checkboxHeaderComponent: CheckboxHeaderComponent
   }
 
   public page$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
@@ -66,7 +67,6 @@ export class RestaurantsGroupsComponent implements OnInit {
 
   onGridReady(params: GridReadyEvent<Restaurant>) {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
 
     const dataSource =  this.createDataSource();
     this.gridApi.setDatasource(dataSource);
@@ -77,7 +77,6 @@ export class RestaurantsGroupsComponent implements OnInit {
     return {
       getRows: (params: IGetRowsParams) => {
         this.gridApi.showLoadingOverlay();
-        // this.gridApi.resetRowHeights()
 
         const page = Math.floor((params.endRow) / this.defaultPageSize) - 1;
         const sort: SortParams[] = params.sortModel.map(m => ({
@@ -85,25 +84,22 @@ export class RestaurantsGroupsComponent implements OnInit {
           sort_order: m.sort === 'asc' ? 1 : -1
         }));
         const filter = formatColumnFilter(params.filterModel);
-        // console.log('Start: ' + params.startRow+ ' End: ' + params.endRow + ' (page):' + page);
-        console.log('Filter and sort: ', params.filterModel, sort);
-
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
         this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sort: sort[0], filter}));
         this.page$.pipe(takeUntil(loading$)).subscribe(page => {
 
           if (page.loadStatus === 'LOADED') {
-            // console.log('Page currently', page.content.map(item => item.name));
             params.successCallback(page.content, page.total)
             this.gridApi.hideOverlay();
             this.gridApi.sizeColumnsToFit();
-            loadinSubj.next('')
+            this.applySelectAll();
+            loadinSubj.next(0)
           }
           if (page.loadStatus === 'NOT_LOADED') {
             params.failCallback();
             this.gridApi.hideOverlay();
-            loadinSubj.next('')
+            loadinSubj.next(0)
           }
         })
       }
@@ -113,7 +109,6 @@ export class RestaurantsGroupsComponent implements OnInit {
   sizeColsToFit() {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
-      // this.gridColumnApi?.autoSizeAllColumns();
     }
   }
 
@@ -138,13 +133,20 @@ export class RestaurantsGroupsComponent implements OnInit {
     });
   }
 
+  applySelectAll() {
+    if (this.selectAll) {
+      this.gridApi.forEachNode(node => {
+        node.selectThisNode(true);
+      })
+    }
+  }
+
   onSelectionChanged($event: SelectionChangedEvent<Restaurant>) {
 
   }
 
   onRowSelected($event: RowSelectedEvent<Restaurant>) {
-    console.log('Selected', $event);
-
+    // console.log('Selected', $event);
   }
 
 }
