@@ -1,3 +1,5 @@
+import { FilterParams } from "src/app/shared/data/model/dto.model";
+
 export interface Restaurant {
   _id: string,
   URL: string,
@@ -22,4 +24,5 @@ export interface RestaurantGroupDto {
   ids: string[],
   is_all: boolean,
   all_except: string[],
+  filters: FilterParams[]
 }

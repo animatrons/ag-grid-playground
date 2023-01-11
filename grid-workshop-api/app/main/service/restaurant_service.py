@@ -40,6 +40,7 @@ def save_restaurant_group(body):
     name = body.get('name')
     is_all = body.get('is_all') or False
     all_except = body.get('all_except') or []
+    filters = body.get('filters') or []
 
     if not body.get('group_id'):
         _id = generate_id()
@@ -59,41 +60,48 @@ def save_restaurant_group(body):
     print(list(cursor))
     groups_names = list(cursor)
 
-    # if not name or name == '':
-    #     name = 'New Group 99'
-    #     # logic for new name with incremented index
-    # if name in groups_names:
-    #     return {'message': 'Group with name' + body.get('name') + ' exists'}, 500
+    if not name or name == '':
+        name = 'New Group 99'
+        # logic for new name with incremented index
+    if name in groups_names:
+        return {'message': 'Group with name' + body.get('name') + ' exists'}, 500
+
+    query = {}
+    queries = build_query(filters)
+    # print(queries)
+    for q in queries:
+        query.update(q)
     
-    # if is_all:
-    #     restaurants = Restaurant().db()
-    #     cursor = restaurants.aggregate([
-    #         {'$match': {'_id': {'$nin': all_except}}},
-    #     ])
-    #     restaurants_list = [Restaurant(**entity) for entity in cursor]
-    # else:
-    #     restaurants = Restaurant().db()
-    #     cursor = restaurants.aggregate([
-    #         {'$match': {'_id': {'$in': ids}}},
-    #     ])
-    #     restaurants_list = [Restaurant(**entity) for entity in cursor]
+    if is_all:
+        restaurants = Restaurant().db()
+        cursor = restaurants.aggregate([
+            {'$match': query},
+            {'$match': {'_id': {'$nin': all_except}}},
+        ])
+        restaurants_list = [Restaurant(**entity) for entity in cursor]
+    else:
+        restaurants = Restaurant().db()
+        cursor = restaurants.aggregate([
+            {'$match': {'_id': {'$in': ids}}},
+        ])
+        restaurants_list = [Restaurant(**entity) for entity in cursor]
     
-    # group = []
-    # for resto in restaurants_list:
-    #     group.append(
-    #         RestaurantGroups(**{
-    #             'group_id': _id,
-    #             'name': name,
-    #             **resto
-    #         })
-    #     )
+    group = []
+    for resto in restaurants_list:
+        group.append(
+            RestaurantGroups(**{
+                'group_id': _id,
+                'name': name,
+                **resto
+            })
+        )
     
-    # try:
-    #     RestaurantGroups().db().delete_many({'group_id': _id})
-    #     RestaurantGroups().db().insert_many(group)
-    #     return {'message': 'OK'}, 201
-    # except Exception as e:
-    #     return {'message': 'BAD', 'error': e}, 500
+    try:
+        RestaurantGroups().db().delete_many({'group_id': _id})
+        RestaurantGroups().db().insert_many(group)
+        return {'message': 'OK'}, 201
+    except Exception as e:
+        return {'message': 'BAD', 'error': e}, 500
 
 def get_restaurant_group_page(args, sorts_param, filters):
     data = []
