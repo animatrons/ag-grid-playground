@@ -1,0 +1,22 @@
+<ag-grid-angular
+  class="ag-theme-balham grid-w-100"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [gridOptions]="gridOptions"
+  [pagination]="true"
+  [paginationPageSize]="paginationPageSize"
+  [cacheBlockSize]="paginationPageSize"
+  [maxConcurrentDatasourceRequests]="2"
+  [cacheOverflowSize]="2"
+  [maxBlocksInCache]="100"
+  [rowSelection]="rowSelection"
+  [suppressRowClickSelection]="true"
+  [frameworkComponents]="frameworkComponents"
+  [domLayout]="'autoHeight'"
+
+  (gridReady)="onGridReady($event)"
+  (gridColumnsChanged)="sizeColsToFit()"
+  (rowSelected)="onRowSelected($event)"
+  (selectionChanged)="onSelectionChanged($event)"
+>
+</ag-grid-angular>
