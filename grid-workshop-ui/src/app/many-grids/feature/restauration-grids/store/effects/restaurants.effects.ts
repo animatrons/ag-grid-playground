@@ -20,7 +20,7 @@ export class RestaurantsEffects {
     return this.actions$.pipe(
       ofType(RestaurantsActions.loadRestaurantsViewPage),
       concatMap(props => {
-        const load$ = this.service.getPage(props.page, props.size, props.sort, props.filter);
+        const load$ = this.service.getPage(props.page, props.size, props.sorts, props.filter);
         return load$.pipe(
           map(res => RestaurantsActions.loadRestaurantsViewPageSuccess({pageData: res})),
           catchError(err => of(RestaurantsActions.loadRestaurantsViewPageFailure({error: err})))

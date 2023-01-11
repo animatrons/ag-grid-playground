@@ -15,14 +15,12 @@ export class RestaurantsService {
   private restaurantsUrl = environment.baseUrl + environment.endpoints.restaurants;
   private restaurantsGroupUrl = environment.baseUrl + environment.endpoints.restaurantGroups;
 
-  getPage(page: number, size: number, sort?: SortParams, filter?: FilterParams[]): Observable<Pagination<Restaurant>> {
+  getPage(page: number, size: number, sorts?: SortParams[], filter?: FilterParams[]): Observable<Pagination<Restaurant>> {
     const params = new HttpParams()
       .set('page', page)
-      .set('size', size)
-      .set('sort_field', sort?.sort_field ?? '')
-      .set('sort_order', sort?.sort_order ?? '')
+      .set('size', size);
     return this.http
-      .post<Pagination<Restaurant>>(this.restaurantsUrl, {filters: filter}, { params })
+      .post<Pagination<Restaurant>>(this.restaurantsUrl, {filters: filter, sorts}, { params })
       .pipe(delay(1000));
   }
 

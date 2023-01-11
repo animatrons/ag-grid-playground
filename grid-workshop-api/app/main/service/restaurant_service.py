@@ -5,13 +5,12 @@ from app.main.util.paginator import Paginator
 from app.main.util.filter import build_query
 from app.main.util.strings import generate_id
 
-def get_restaurants(args, filters):
+def get_restaurants(args, sorts_param, filters):
     # SORT
-    sort_key = args.get('sort_field') or 'name'
-    sort_acn = int(args.get('sort_order') or '0') or 1
-    sort = {'$sort': {'_id': 1}}
-    if sort_key:
-        sort = {'$sort': {sort_key: sort_acn}}
+    sorts_param = sorts_param or [{'sort_field': '_id', 'sort_order': 1}]
+    sorts = []
+    for sort in sorts_param:
+        sorts.append({'$sort': {sort.get('sort_field'): sort.get('sort_order')}})
     # PAGINATION
     page = args.get('page') or 0
     size = args.get('size') or 10
@@ -26,7 +25,7 @@ def get_restaurants(args, filters):
     restaurants = Restaurant().db()
     cursor = restaurants.aggregate([
         {'$match': query},
-        sort,
+        *sorts,
         {'$skip': skip},
         {'$limit': size},
     ])

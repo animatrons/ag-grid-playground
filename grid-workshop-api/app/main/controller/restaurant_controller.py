@@ -25,14 +25,13 @@ class RestaurantList(Resource):
     @api.marshal_list_with(restaurant_page)
     def post(self):
         filters = request.json.get('filters')
+        sorts = request.json.get('sorts')
         # print(filters)
         parser = reqparse.RequestParser()
         parser.add_argument('page', type=int, location='args')
         parser.add_argument('size', type=int, location='args')
-        parser.add_argument('sort_field', location='args')
-        parser.add_argument('sort_order', location='args')
         args = parser.parse_args()
-        data = get_restaurants(args, filters)
+        data = get_restaurants(args, sorts, filters)
         return data
 
 @api.route('/groups')

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IGridWithPaginationState, State } from 'src/app/store/reducers';
 import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams, RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
@@ -23,6 +23,7 @@ import { CheckboxHeaderComponent } from 'src/app/shared/feature/ag-grid-internal
   providers: [ResizeService]
 })
 export class RestaurantsGroupsComponent implements OnInit {
+  @Input() groupId: string | null = null;
 
   private gridApi!: GridApi;
   public gridOptions!: GridOptions;
@@ -40,7 +41,7 @@ export class RestaurantsGroupsComponent implements OnInit {
   }
 
   public page$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
-  public status$
+  public groupPage$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
 
   private selectAll = false;
 
@@ -49,7 +50,7 @@ export class RestaurantsGroupsComponent implements OnInit {
 
   constructor(private store: Store<State>, private el: ElementRef, private resizeService: ResizeService) {
     this.page$ = this.store.pipe(select(fromRestaurants.selectRestaurantsView));
-    this.status$ = this.store.pipe(select(fromRestaurants.selectCurrentViewStatus))
+    this.groupPage$ = this.store.pipe(select(fromRestaurants.selectRestaurantsGroupView));
   }
 
   ngOnInit(): void {
@@ -79,14 +80,14 @@ export class RestaurantsGroupsComponent implements OnInit {
         this.gridApi.showLoadingOverlay();
 
         const page = Math.floor((params.endRow) / this.defaultPageSize) - 1;
-        const sort: SortParams[] = params.sortModel.map(m => ({
+        const sorts: SortParams[] = params.sortModel.map(m => ({
           sort_field: m.colId,
           sort_order: m.sort === 'asc' ? 1 : -1
         }));
         const filter = formatColumnFilter(params.filterModel);
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
-        this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sort: sort[0], filter}));
+        this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
         this.page$.pipe(takeUntil(loading$)).subscribe(page => {
 
           if (page.loadStatus === 'LOADED') {
