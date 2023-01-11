@@ -10,6 +10,7 @@ export const restaurantsFeatureKey = 'restaurants';
 export interface State {
   viewGrid: IGridWithPaginationState<Restaurant>,
   groups: ILoadState<RestaurantGroup>,
+  groupViewGrid: IGridWithPaginationState<Restaurant>,
 }
 
 export const initialState: State = {
@@ -22,6 +23,14 @@ export const initialState: State = {
     error: null
   },
   groups: {
+    content: [],
+    loadStatus: 'NOT_LOADED',
+    error: null
+  },
+  groupViewGrid: {
+    page: 0,
+    size: 0,
+    total: 0,
     content: [],
     loadStatus: 'NOT_LOADED',
     error: null
@@ -92,4 +101,37 @@ export const reducer = createReducer(
       error: action.error
     }
   })),
+
+  on(RestaurantGroupsActions.getRestaurantsGroupViewPage, (state) => ({
+    ...state
+  })),
+  on(RestaurantGroupsActions.loadRestaurantsGroupViewPage, (state, action) => ({
+    ...state,
+    groupViewGrid: {
+      ...state.groupViewGrid,
+      loadStatus: 'LOADING'
+    }
+  })),
+  on(RestaurantGroupsActions.loadRestaurantsGroupViewPageSuccess, (state, action) => ({
+    ...state,
+    groupViewGrid: {
+      ...state.groupViewGrid,
+      loadStatus: 'LOADED',
+      page: action.pageData.page,
+      size: action.pageData.size,
+      total: action.pageData.total,
+      content: action.pageData.content
+    }
+  })),
+  on(RestaurantGroupsActions.loadRestaurantsGroupViewPageFailure, (state, action) => ({
+    ...state,
+    groupViewGrid: {
+      ...state.groupViewGrid,
+      loadStatus: 'NOT_LOADED',
+      error: action.error,
+      content: [],
+      total: 0
+    }
+  })),
+
 );

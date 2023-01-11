@@ -10,6 +10,11 @@ export const selectRestaurantsView = createSelector(
   (state) => state.viewGrid
 );
 
+export const selectRestaurantsGroupView = createSelector(
+  selectRestaurantsState,
+  (state) => state.groupViewGrid
+);
+
 export const selectCurrentViewPage = createSelector(
   selectRestaurantsView,
   (state) => state.page
