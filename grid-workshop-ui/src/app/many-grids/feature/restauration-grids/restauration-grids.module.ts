@@ -11,6 +11,7 @@ import { RestaurantsViewComponent } from './feature/restaurants-view/restaurants
 import { AgGridInternalModule } from 'src/app/shared/feature/ag-grid-internal/ag-grid-internal.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RestaurantsGroupsComponent } from './feature/restaurants-groups/restaurants-groups.component';
+import { RestaurantGroupComponent } from './feature/restaurant-group/restaurant-group.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { RestaurantsGroupsComponent } from './feature/restaurants-groups/restaur
     RestaurationGridsComponent,
     RestaurantsViewComponent,
     RestaurantsGroupsComponent,
+    RestaurantGroupComponent,
   ],
   imports: [
     CommonModule,
