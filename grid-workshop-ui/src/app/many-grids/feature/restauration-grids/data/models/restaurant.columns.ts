@@ -31,7 +31,8 @@ export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
     'filter': false,
     'cellRenderer': LinkCellComponent,
     'floatingFilter': false,
-    'width': 20,
+    'width': 40,
+    'suppressSizeToFit': true,
     'cellRendererParams': {
       'urlField': 'URL'
     },
@@ -105,11 +106,12 @@ export const RestaurantGroupsColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
     'headerName': '',
     'filter': false,
     'floatingFilter': false,
-    'width': 20,
-    'headerCheckboxSelection': true,
+    'width': 40,
+    // 'headerCheckboxSelection': true,
     'checkboxSelection': true,
     'sortable': false,
-    'headerComponent': CheckboxHeaderComponent
+    'suppressSizeToFit': true,
+    'headerComponent': 'checkboxHeaderComponent'
   },
   ...RestaurantViewColDefs
 ]

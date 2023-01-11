@@ -9,3 +9,17 @@ export interface Restaurant {
   rating?: number,
   type_of_food: string,
 }
+
+export interface RestaurantGroup {
+  _id: string,
+  name: string,
+  restaurants: Restaurant[]
+}
+
+export interface RestaurantGroupDto {
+  group_id: string,
+  name: string,
+  ids: string[],
+  is_all: boolean,
+  all_except: string[],
+}
