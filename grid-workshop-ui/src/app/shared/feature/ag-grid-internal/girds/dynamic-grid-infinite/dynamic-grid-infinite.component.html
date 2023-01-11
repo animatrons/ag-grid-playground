@@ -1,0 +1,23 @@
+<ag-grid-angular style="width: 100%; height: 100%;"
+    class="ag-theme-balham"
+    [gridOptions]="gridOptions"
+    [defaultColDef]="defaultColDef"
+    [animateRows]="animateRows"
+    [suppressRowClickSelection]="suppressRowClickSelection"
+    [pivotPanelShow]="pivotPanelShow"
+    [rowSelection]="rowSelection"
+    [enableCellChangeFlash]="enableCellChangeFlash"
+    [frameworkComponents]="frameworkComponents"
+    [suppressContextMenu]="suppressContextMenu"
+    [paginationPageSize]="MAX_PAGE_SIZE"
+    [cacheBlockSize]="MAX_PAGE_SIZE"
+
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+    [cacheOverflowSize]="cacheOverflowSize" [maxBlocksInCache]="maxBlocksInCache"
+
+    (rowSelected)="onSelectRow($event)"
+    (gridReady)="onGridReady($event)"
+    (cellClicked)="onCellClicked($event)"
+    (gridColumnsChanged)="onGridColumnsChanged($event)"
+  >
+  </ag-grid-angular>

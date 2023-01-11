@@ -15,6 +15,11 @@ export class DynamicGridBasicComponent extends DynamicGrid implements OnInit, On
   }
 
   ngOnInit(): void {
+    this.gridOptions = {
+      ...this.gridOptions,
+      rowModelType: 'clientSide'
+    }
+
     if (!this.defaultColDef) {
       this.defaultColDef = {
         resizable: true,
@@ -46,15 +51,6 @@ export class DynamicGridBasicComponent extends DynamicGrid implements OnInit, On
     this.gridApi.sizeColumnsToFit();
 
     this.gridReady.emit(params);
-  }
-
-  onSelectRow(params: RowEvent) {
-    if (params.node.isSelected()) {
-      this.selectedRows = [...this.selectedRows, params.node];
-    } else {
-      this.selectedRows = this.selectedRows.filter(node => node.id !== params.node.id);
-    }
-    this.selectionChanged.emit(this.selectedRows);
   }
 
   public override adjustGrid(): void {
