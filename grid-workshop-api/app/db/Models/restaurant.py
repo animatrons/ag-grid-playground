@@ -21,3 +21,9 @@ class Restaurant(Document):
     def parse_ints(self):
         if self.rating:
             self.rating = int(self.rating)
+
+class RestaurantGroup(Document):
+    __TABLE__ = "restaurant_groups"
+
+    name = None
+    restaurants = []

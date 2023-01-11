@@ -21,7 +21,7 @@ class RestaurantDto:
         'postcode': NullableString(required=True, description='postcode'),
         'type_of_food': NullableString(required=True, description='type_of_food'),
         'rating': fields.Float(required=True, description='rating'),
-        'id': NullableString(description='user Identifier')
+        'id': NullableString(description='Identifier')
     }) 
 
     restaurant_page = api.model('restaurant page', {
@@ -29,6 +29,14 @@ class RestaurantDto:
         'size': fields.Integer,
         'total': fields.Integer,
         'content': fields.List(fields.Nested(restaurant)),
+    })
+
+    restaurant_group = api.model('restaurant group', {
+        'group_id': NullableString(description='Identifier'),
+        'name': fields.String(required=True, description='name'),
+        'ids': fields.List(fields.String()),
+        'is_all': fields.Boolean,
+        'all_except': fields.List(fields.String())
     })
 
 class UserDto:

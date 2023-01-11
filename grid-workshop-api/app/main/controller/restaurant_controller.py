@@ -2,12 +2,13 @@ from flask import request
 from flask_restplus import Resource, reqparse
 
 from ..util.dto import RestaurantDto
-from ..service.restaurant_service import get_restaurants
+from ..service.restaurant_service import get_restaurants, save_restaurant_group, get_restaurant_groups
 
 
 api = RestaurantDto.api
 _restaurant = RestaurantDto.restaurant
 restaurant_page = RestaurantDto.restaurant_page
+restaurant_group = RestaurantDto.restaurant_group
 
 @api.route('')
 class RestaurantList(Resource):
@@ -33,3 +34,16 @@ class RestaurantList(Resource):
         args = parser.parse_args()
         data = get_restaurants(args, filters)
         return data
+
+@api.route('/groups')
+class RestaurantGroups(Resource):
+    @api.expect(restaurant_group)
+    @api.doc('create a new restaurant group')
+    def put(self):
+        data = request.json
+        return save_restaurant_group(data=data)
+    
+    @api.doc('list_of_restaurants')
+    def get(self):
+        args = request.args
+        return get_restaurant_groups(args)
