@@ -13,11 +13,11 @@ export interface Restaurant {
 export interface RestaurantGroup {
   _id: string,
   name: string,
-  restaurants: Restaurant[]
+  // restaurants: Restaurant[]
 }
 
 export interface RestaurantGroupDto {
-  group_id: string,
+  group_id?: string,
   name: string,
   ids: string[],
   is_all: boolean,

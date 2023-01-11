@@ -33,6 +33,15 @@ export class RestaurantsService {
       })
   }
 
+  getGroupPage(group_id: string, page: number, size: number, sort?: SortParams[], filter?: FilterParams[]) {
+    const params = new HttpParams()
+      .set('group_id', group_id)
+      .set('page', page)
+      .set('size', size)
+    return this.http
+      .post<Pagination<Restaurant>>(this.restaurantsGroupUrl, {filters: filter, sorts: sort}, { params })
+  }
+
   getAllGroups() {
     return this.http.get<RestaurantGroup[]>(this.restaurantsGroupUrl);
   }

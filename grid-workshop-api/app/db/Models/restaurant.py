@@ -22,8 +22,16 @@ class Restaurant(Document):
         if self.rating:
             self.rating = int(self.rating)
 
-class RestaurantGroup(Document):
+class RestaurantGroups(Document):
     __TABLE__ = "restaurant_groups"
 
+    group_id = None
     name = None
-    restaurants = []
+
+    URL = None
+    address = None
+    address_line_2 = None
+    outcode = None
+    postcode = None
+    rating = None
+    type_of_food = None

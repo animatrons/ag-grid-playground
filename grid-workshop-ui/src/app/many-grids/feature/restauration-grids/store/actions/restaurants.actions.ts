@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { FilterParams, Pagination, SortParams } from 'src/app/shared/data/model/dto.model';
-import { Restaurant, RestaurantGroup, RestaurantGroupDto } from '../../data/models/restaurant.model';
+import { Restaurant } from '../../data/models/restaurant.model';
 
 export const getRestaurants = createAction(
   '[Restaurants] Begin Load Restaurants'

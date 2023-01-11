@@ -2,7 +2,7 @@
 
 def build_query(filters):
     queries = []
-    for filter in filters.get('filters'):
+    for filter in filters:
         field = filter.get('filter_field', None)
         value = filter.get('filter_value', None)
         operator = filter.get('operator', None)
