@@ -2,7 +2,79 @@
   <section controls class="flex flex-start gap-2">
     <button mat-stroked-button (click)="clearSelection()" class="flex-form-button">Clear Selection</button>
   </section>
-  <ag-grid-angular
+  <section
+    grids class="w-100"
+  >
+    <!-- <app-restaurant-group>
+    </app-restaurant-group> -->
+
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div>
+            <span  class="flex-row between ailgn-items-center">
+              <div>
+                All
+              </div>
+              <div class="tab-margin-4">
+
+              </div>
+            </span>
+            <span class="tab-menu">
+              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                <mat-icon color="primary" aria-label="Example icon-button with a heart icon">menu</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="clickmenubutton(2)">Edit</button>
+                <button mat-menu-item class="danger-color" (click)="clickmenubutton(3)">Delete</button>
+              </mat-menu>
+            </span>
+          </div>
+        </ng-template>
+        <div class="tab-grid-wrapper">
+          <app-restaurant-group>
+          </app-restaurant-group>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div>
+            <span  class="flex-row between ailgn-items-center">
+              <div>
+                All But Second Tab
+              </div>
+              <div class="tab-margin-4">
+
+              </div>
+            </span>
+            <span class="tab-menu">
+              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                <mat-icon color="primary" aria-label="Example icon-button with a heart icon">menu</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="clickmenubutton(2)">Edit</button>
+                <button mat-menu-item class="danger-color" (click)="clickmenubutton(3)">Delete</button>
+              </mat-menu>
+            </span>
+          </div>
+        </ng-template>
+        <div class="tab-grid-wrapper">
+          <app-restaurant-group>
+          </app-restaurant-group>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Third Tab
+        </ng-template>
+        <div class="tab-grid-wrapper">
+          <app-restaurant-group>
+          </app-restaurant-group>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+  <!-- <ag-grid-angular
     grids
     class="ag-theme-balham grid-w-100"
     [columnDefs]="columnDefs"
@@ -26,5 +98,5 @@
     (rowSelected)="onRowSelected($event)"
     (selectionChanged)="onSelectionChanged($event)"
   >
-  </ag-grid-angular>
+  </ag-grid-angular> -->
 </app-gird-wrapper>

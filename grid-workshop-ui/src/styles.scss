@@ -6,6 +6,7 @@
 @import 'ag-grid-community/styles/ag-theme-material.css';
 
 @import "./styles/flex.scss";
+@import "./styles/fonts.scss";
 
 * {
   margin: 0;
@@ -23,6 +24,10 @@ body { margin: 0; height: 100%; font-family: Roboto, "Helvetica Neue", sans-seri
 .w-100 {
   width: 100%;
 }
+
+$md-danger: (
+  50: rgb(236, 79, 79)
+);
 
 $md-primary: (
   50 : #e1e2ea,
@@ -56,6 +61,10 @@ $md-primary: (
     A700: #ffffff,
   ),
 );
+
+.danger-color {
+  color: red;
+}
 
 .scene {
   height: 100%;
