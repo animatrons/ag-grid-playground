@@ -1,7 +1,7 @@
 import { FilterParams } from "src/app/shared/data/model/dto.model";
 
 export interface Restaurant {
-  _id: string,
+  id: string,
   URL: string,
   address: string,
   address_line_2: string,

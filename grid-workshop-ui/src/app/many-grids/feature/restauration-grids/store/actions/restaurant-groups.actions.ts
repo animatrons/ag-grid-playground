@@ -21,19 +21,19 @@ export const loadAllRestaurantGroupsFailure = createAction(
 // Pagination
 export const getRestaurantsGroupViewPage = createAction(
   '[Restaurants] Begin Load Restaurants Group View Grid Page',
-  props<{group_id: string, page: number, size: number, sorts?: SortParams[], filters?: FilterParams[]}>()
+  props<{group_id: string, group_name: string, page: number, size: number, sorts?: SortParams[], filters?: FilterParams[]}>()
 );
 export const loadRestaurantsGroupViewPage = createAction(
   '[Restaurants] Load Restaurants Group View Grid Page',
-  props<{group_id: string, page: number, size: number, sorts?: SortParams[], filters?: FilterParams[]}>()
+  props<{group_id: string, group_name: string, page: number, size: number, sorts?: SortParams[], filters?: FilterParams[]}>()
 );
 export const loadRestaurantsGroupViewPageSuccess = createAction(
   '[Restaurants] Load Restaurants Group View Grid Page Success',
-  props<{pageData: Pagination<Restaurant>}>()
+  props<{group_id: string, group_name: string, pageData: Pagination<Restaurant>}>()
 );
 export const loadRestaurantsGroupViewPageFailure = createAction(
   '[Restaurants] Load Restaurants Group View Grid Page Failure',
-  props<{error: any}>()
+  props<{group_id: string, group_name: string, error: any}>()
 );
 
 // Manage Restaurants Groups

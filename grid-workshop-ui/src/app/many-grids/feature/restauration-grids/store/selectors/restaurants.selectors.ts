@@ -10,9 +10,10 @@ export const selectRestaurantsView = createSelector(
   (state) => state.viewGrid
 );
 
-export const selectRestaurantsGroupView = createSelector(
+
+export const selectRestaurantGroupPageView = (groupId: string) => createSelector(
   selectRestaurantsState,
-  (state) => state.groupViewGrid
+  (state) => state.groupsViews[groupId]?.groupViewGrid
 );
 
 export const selectCurrentViewPage = createSelector(

@@ -6,11 +6,17 @@ import * as RestaurantGroupsActions from '../actions/restaurant-groups.actions';
 
 export const restaurantsFeatureKey = 'restaurants';
 
+interface GroupViews {
+  [groupId: string]: {
+    groupName: string,
+    groupViewGrid: IGridWithPaginationState<Restaurant>,
+  }
+}
 
 export interface State {
   viewGrid: IGridWithPaginationState<Restaurant>,
   groups: ILoadState<RestaurantGroup>,
-  groupViewGrid: IGridWithPaginationState<Restaurant>,
+  groupsViews: GroupViews,
 }
 
 export const initialState: State = {
@@ -27,14 +33,7 @@ export const initialState: State = {
     loadStatus: 'NOT_LOADED',
     error: null
   },
-  groupViewGrid: {
-    page: 0,
-    size: 0,
-    total: 0,
-    content: [],
-    loadStatus: 'NOT_LOADED',
-    error: null
-  },
+  groupsViews: {}
 };
 
 export const reducer = createReducer(
@@ -107,31 +106,49 @@ export const reducer = createReducer(
   })),
   on(RestaurantGroupsActions.loadRestaurantsGroupViewPage, (state, action) => ({
     ...state,
-    groupViewGrid: {
-      ...state.groupViewGrid,
-      loadStatus: 'LOADING'
+    groupsViews: {
+      ...state.groupsViews,
+      [action.group_id]: {
+        groupName: action.group_name,
+        groupViewGrid: {
+          ...state.groupsViews[action.group_id]?.groupViewGrid,
+          loadStatus: 'LOADING'
+        }
+      }
     }
   })),
   on(RestaurantGroupsActions.loadRestaurantsGroupViewPageSuccess, (state, action) => ({
     ...state,
-    groupViewGrid: {
-      ...state.groupViewGrid,
-      loadStatus: 'LOADED',
-      page: action.pageData.page,
-      size: action.pageData.size,
-      total: action.pageData.total,
-      content: action.pageData.content
-    }
+    groupsViews: {
+      ...state.groupsViews,
+      [action.group_id]: {
+        groupName: action.group_name,
+        groupViewGrid: {
+          ...state.groupsViews[action.group_id]?.groupViewGrid,
+          loadStatus: 'LOADED',
+          page: action.pageData.page,
+          size: action.pageData.size,
+          total: action.pageData.total,
+          content: action.pageData.content
+        }
+      }
+    },
   })),
   on(RestaurantGroupsActions.loadRestaurantsGroupViewPageFailure, (state, action) => ({
     ...state,
-    groupViewGrid: {
-      ...state.groupViewGrid,
-      loadStatus: 'NOT_LOADED',
-      error: action.error,
-      content: [],
-      total: 0
-    }
+    groupsViews: {
+      ...state.groupsViews,
+      [action.group_id]: {
+        groupName: action.group_name,
+        groupViewGrid: {
+          ...state.groupsViews[action.group_id]?.groupViewGrid,
+          loadStatus: 'NOT_LOADED',
+          error: action.error,
+          content: [],
+          total: 0
+        }
+      }
+    },
   })),
 
 );
