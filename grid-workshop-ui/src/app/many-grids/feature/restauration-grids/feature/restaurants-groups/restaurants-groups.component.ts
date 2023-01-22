@@ -15,6 +15,7 @@ import * as restaurantGroupsActions from '../../store/actions/restaurant-groups.
 import { EMPTY_GROUP_SELECTION, GridGroupSelection } from 'src/app/shared/data/model/dto.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupPopupComponent } from '../../ui/group-popup/group-popup.component';
+import { ToastService } from 'src/app/shared/util/toast.service';
 
 @Component({
   selector: 'app-restaurants-groups',
@@ -33,20 +34,18 @@ export class RestaurantsGroupsComponent implements OnInit {
   @HostBinding('style.flex-grow')
   flexGrow = '1';
 
-  constructor(private store: Store<State>, private el: ElementRef, public dialog: MatDialog) {
+  constructor(private store: Store<State>, private el: ElementRef, public dialog: MatDialog, private toast: ToastService) {
     this.groups$ = store.pipe(select(fromRestaurantGroups.selectRestaurantGroups));
-    console.log('Inited groups component');
-
     store.dispatch(restaurantGroupsActions.getAllRestaurantGroups());
   }
 
   ngOnInit(): void {
-    this.groups$.subscribe(grps => console.log('Groups: ', grps))
+    // this.groups$.subscribe(grps => console.log('Groups: ', grps))
   }
 
   saveGroup() {
     if (this.groupSelection.selectedIds.length === 0 && !this.groupSelection.selectAll) {
-      console.log('Select some first');
+      this.toast.warning('No Items selected!')
       return;
     }
     const dialogRef = this.dialog.open(GroupPopupComponent, {
@@ -55,7 +54,6 @@ export class RestaurantsGroupsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log('Saving group: ' + res.groupName, this.groupSelection);
         this.store.dispatch(restaurantGroupsActions.saveRestaurantGroup({
           params: {
             group_id: this.groupSelection.groupId ?? undefined,
@@ -71,7 +69,6 @@ export class RestaurantsGroupsComponent implements OnInit {
   }
 
   onSelectionApplied($event: GridGroupSelection) {
-    console.log('Selection changed', $event);
     this.groupSelection = $event;
   }
 
@@ -80,11 +77,11 @@ export class RestaurantsGroupsComponent implements OnInit {
   }
 
   editGroup(groupId: string) {
-    console.log('Editing group placholder', groupId);
+
   }
 
   deleteGroup(groupId: string) {
-    console.log('Deleting group placholder', groupId);
+
   }
 
 }

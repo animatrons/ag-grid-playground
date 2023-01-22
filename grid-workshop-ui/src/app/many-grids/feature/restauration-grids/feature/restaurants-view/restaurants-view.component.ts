@@ -79,7 +79,6 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
     return {
       getRows: (params: IGetRowsParams) => {
         this.gridApi.showLoadingOverlay();
-        // this.gridApi.resetRowHeights()
 
         const page = Math.floor((params.endRow) / this.defaultPageSize) - 1;
         const sorts: SortParams[] = params.sortModel.map(m => ({
@@ -87,16 +86,12 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
           sort_order: m.sort === 'asc' ? 1 : -1
         }));
         const filter = formatColumnFilter(params.filterModel);
-        // console.log('Start: ' + params.startRow+ ' End: ' + params.endRow + ' (page):' + page);
-        console.log('Filter and sort: ', params.filterModel, sorts);
-
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
         this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
         this.page$.pipe(takeUntil(loading$)).subscribe(page => {
 
           if (page.loadStatus === 'LOADED') {
-            // console.log('Page currently', page.content.map(item => item.name));
             params.successCallback(page.content, page.total)
             this.gridApi.hideOverlay();
             this.gridApi.sizeColumnsToFit();
@@ -120,7 +115,7 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
   }
 
   onCellClicked(e: CellClickedEvent) {
-    console.log('Cell clicked ', e);
+
   }
 
   clearSelection() {
@@ -128,7 +123,6 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
   }
 
   changePageSize($size: number) {
-    // console.log('Page size changed', $size);
     this.gridApi.paginationSetPageSize($size)
   }
 

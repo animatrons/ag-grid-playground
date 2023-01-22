@@ -37,9 +37,7 @@ export class DynamicGridBasicComponent extends DynamicGrid implements OnInit, On
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['rowData']) {
-      // console.log(this.rowData)
       if (this.gridApi) {
-        // this.gridApi.showLoadingOverlay();
         this.gridApi.setRowData(this.rowData ?? []);
       }
     }

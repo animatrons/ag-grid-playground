@@ -139,7 +139,6 @@ export class RestaurantGroupComponent implements OnInit {
 
   handleSelectAllEvents() {
     this.gridApi.addEventListener('headerCheckboxSelected', (e: any) => {
-      console.log('headerCheckboxSelected', e);
       this.selectAll = true;
       this.selectedIds = [];
       this.gridApi.forEachNode(node => {
@@ -149,7 +148,6 @@ export class RestaurantGroupComponent implements OnInit {
       this.selectionApplied.emit({groupId: this.groupId, selectedIds: [], selectAll: true, selectAllExceptIds: this.selectAllExceptIds, filters: this.appliedFilters});
     });
     this.gridApi.addEventListener('headerUnCheckboxSelected', (e: any) => {
-      console.log('headerUnCheckboxSelected', e);
       this.selectAll = false;
       this.selectAllExceptIds = [];
       this.gridApi.forEachNode(node => {
