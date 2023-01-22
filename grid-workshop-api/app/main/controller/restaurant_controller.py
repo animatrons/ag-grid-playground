@@ -47,20 +47,22 @@ class RestaurantGroups(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('page', type=int, location='args')
         parser.add_argument('size', type=int, location='args')
+        parser.add_argument('group_id', type=str, location='args')
         args = parser.parse_args()
         data = get_restaurant_group_page(args, sorts, filters)
-        print(data)
+        return data
 
     @api.expect(restaurant_group)
     @api.doc('Save a restaurant group')
     def put(self):
         data = request.json
-        return save_restaurant_group(data=data)
+        return save_restaurant_group(data)
     
     @api.doc('List all restaurant groups')
     def get(self):
         args = request.args
-        return get_restaurant_groups(args)
+        groups_list = get_restaurant_groups(args)
+        return groups_list
 
     @api.doc('Delete restaurant groups')
     def delete(self):

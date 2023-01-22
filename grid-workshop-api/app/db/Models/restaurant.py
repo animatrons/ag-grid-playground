@@ -26,9 +26,10 @@ class RestaurantGroups(Document):
     __TABLE__ = "restaurant_groups"
 
     group_id = None
-    name = None
+    group_name = None
 
     URL = None
+    restaurant_id = None
     address = None
     address_line_2 = None
     outcode = None
