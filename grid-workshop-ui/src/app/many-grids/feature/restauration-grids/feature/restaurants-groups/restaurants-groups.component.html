@@ -1,102 +1,39 @@
-<app-gird-wrapper [title]="'Restaurants grid (View only)'">
+<app-gird-wrapper [title]="'Restaurants groups'">
   <section controls class="flex flex-start gap-2">
-    <button mat-stroked-button (click)="clearSelection()" class="flex-form-button">Clear Selection</button>
+    <button mat-stroked-button (click)="saveGroup()" class="flex-form-button">Save Group</button>
   </section>
-  <section
-    grids class="w-100"
-  >
-    <!-- <app-restaurant-group>
-    </app-restaurant-group> -->
-
-    <mat-tab-group>
+  <section grids class="w-100">
+    <mat-tab-group (selectedIndexChange)="resetSelection()">
       <mat-tab>
         <ng-template mat-tab-label>
           <div>
-            <span  class="flex-row between ailgn-items-center">
-              <div>
-                All
-              </div>
-              <div class="tab-margin-4">
-
-              </div>
-            </span>
-            <span class="tab-menu">
-              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-                <mat-icon color="primary" aria-label="Example icon-button with a heart icon">menu</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="clickmenubutton(2)">Edit</button>
-                <button mat-menu-item class="danger-color" (click)="clickmenubutton(3)">Delete</button>
-              </mat-menu>
-            </span>
+            All
           </div>
         </ng-template>
         <div class="tab-grid-wrapper">
-          <app-restaurant-group>
+          <app-restaurant-group (selectionApplied)="onSelectionApplied($event)" [groupName]="'All'">
           </app-restaurant-group>
         </div>
       </mat-tab>
-      <mat-tab>
+      <!-- Groups -->
+      <mat-tab *ngFor="let group of (groups$ | async) ?? []">
         <ng-template mat-tab-label>
-          <div>
-            <span  class="flex-row between ailgn-items-center">
-              <div>
-                All But Second Tab
-              </div>
-              <div class="tab-margin-4">
-
-              </div>
-            </span>
-            <span class="tab-menu">
-              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-                <mat-icon color="primary" aria-label="Example icon-button with a heart icon">menu</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="clickmenubutton(2)">Edit</button>
-                <button mat-menu-item class="danger-color" (click)="clickmenubutton(3)">Delete</button>
-              </mat-menu>
-            </span>
-          </div>
+          <app-tab-menu
+            [itemId]="group._id"
+            [itemName]="group.name"
+            (edit)="editGroup(group._id)"
+            (delete)="deleteGroup(group._id)"
+          ></app-tab-menu>
         </ng-template>
         <div class="tab-grid-wrapper">
-          <app-restaurant-group>
-          </app-restaurant-group>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          Third Tab
-        </ng-template>
-        <div class="tab-grid-wrapper">
-          <app-restaurant-group>
+          <app-restaurant-group
+            [groupId]="group._id"
+            [groupName]="group.name"
+            (selectionApplied)="onSelectionApplied($event)"
+          >
           </app-restaurant-group>
         </div>
       </mat-tab>
     </mat-tab-group>
   </section>
-  <!-- <ag-grid-angular
-    grids
-    class="ag-theme-balham grid-w-100"
-    [columnDefs]="columnDefs"
-    [defaultColDef]="defaultColDef"
-    [gridOptions]="gridOptions"
-    [pagination]="true"
-    [paginationPageSize]="paginationPageSize"
-    [cacheBlockSize]="paginationPageSize"
-    [maxConcurrentDatasourceRequests]="2"
-    [cacheOverflowSize]="2"
-    [maxBlocksInCache]="100"
-    [rowSelection]="rowSelection"
-    [suppressRowClickSelection]="true"
-
-    [frameworkComponents]="frameworkComponents"
-    [domLayout]="'autoHeight'"
-
-    (gridReady)="onGridReady($event)"
-    (gridColumnsChanged)="sizeColsToFit()"
-
-    (rowSelected)="onRowSelected($event)"
-    (selectionChanged)="onSelectionChanged($event)"
-  >
-  </ag-grid-angular> -->
 </app-gird-wrapper>
