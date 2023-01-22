@@ -11,7 +11,7 @@ import { Restaurant } from '../../data/models/restaurant.model';
 import * as fromRestaurants from '../../store/selectors/restaurants.selectors';
 import * as restaurantsActions from '../../store/actions/restaurants.actions';
 import * as restaurantGroupsActions from '../../store/actions/restaurant-groups.actions';
-import { FilterParams, SortParams } from 'src/app/shared/data/model/dto.model';
+import { FilterParams, GridGroupSelection, SortParams } from 'src/app/shared/data/model/dto.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 import { CheckboxHeaderComponent } from 'src/app/shared/feature/ag-grid-internal/components/checkbox-header/checkbox-header.component';
@@ -26,8 +26,8 @@ import { CheckboxHeaderComponent } from 'src/app/shared/feature/ag-grid-internal
 export class RestaurantGroupComponent implements OnInit {
 
   @Input() groupId: string | null = null;
-  @Output() selectionApplied = new EventEmitter<{groupId: string | null, selectedIds: string[],
-    selectAll: boolean, selectAllExceptIds: string[], filters: FilterParams[]}>();
+  @Input() groupName!: string;
+  @Output() selectionApplied = new EventEmitter<GridGroupSelection>();
 
   private gridApi!: GridApi;
   public gridOptions!: GridOptions;
@@ -38,6 +38,7 @@ export class RestaurantGroupComponent implements OnInit {
   public defaultPageSize = 18;
   public paginationPageSize = this.defaultPageSize;
   public rowSelection: 'multiple' | 'single' = 'multiple';
+  selectAllToggled = false;
 
   public frameworkComponents = {
     simpleTextColumnFilterComponent: SimpleTextColumnFilterComponent,
@@ -56,11 +57,12 @@ export class RestaurantGroupComponent implements OnInit {
   flexGrow = '1';
 
   constructor(private store: Store<State>, private el: ElementRef, private resizeService: ResizeService) {
-    this.page$ = this.store.pipe(select(fromRestaurants.selectRestaurantsView));
-    this.groupPage$ = this.store.pipe(select(fromRestaurants.selectRestaurantsGroupView));
+
   }
 
   ngOnInit(): void {
+    this.page$ = this.store.pipe(select(fromRestaurants.selectRestaurantsView));
+    this.groupPage$ = this.store.pipe(select(fromRestaurants.selectRestaurantGroupPageView(this.groupId ?? '')));
     this.gridOptions = {
       rowModelType: 'infinite',
       loadingOverlayComponent: LoadingSpinnerOverlayComponent,
@@ -96,15 +98,18 @@ export class RestaurantGroupComponent implements OnInit {
         const loading$ = loadinSubj.asObservable();
         this.appliedFilters = filter;
 
-        if (this.groupId) {
-          this.store.dispatch(restaurantGroupsActions.getRestaurantsGroupViewPage({group_id: this.groupId, page: page, size: this.defaultPageSize, sorts, filters: filter}));
+        if (this.groupId && this.groupName) {
+          this.store.dispatch(restaurantGroupsActions.getRestaurantsGroupViewPage({group_id: this.groupId, group_name: this.groupName, page: page, size: this.defaultPageSize, sorts, filters: filter}));
         } else {
           this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
         }
-        iif(() => this.groupId === null,
-          this.page$.pipe(takeUntil(loading$)),
-          this.groupPage$.pipe(takeUntil(loading$))
-        ).subscribe(page => {
+        iif(() => this.groupId == null,
+          this.page$,
+          this.groupPage$
+        ).pipe(takeUntil(loading$)).subscribe(page => {
+          // if (this.groupId != null) {
+          //   console.log("page of group", page);
+          // }
           if (page.loadStatus === 'LOADED') {
             params.successCallback(page.content, page.total)
             this.gridApi.hideOverlay();
@@ -136,37 +141,45 @@ export class RestaurantGroupComponent implements OnInit {
     this.gridApi.addEventListener('headerCheckboxSelected', (e: any) => {
       console.log('headerCheckboxSelected', e);
       this.selectAll = true;
-      this.selectionApplied.emit({groupId: this.groupId, selectedIds: [], selectAll: true, selectAllExceptIds: this.selectAllExceptIds, filters: this.appliedFilters});
+      this.selectedIds = [];
       this.gridApi.forEachNode(node => {
+        this.selectAllToggled = true;
         node.selectThisNode(true);
-      })
+      });
+      this.selectionApplied.emit({groupId: this.groupId, selectedIds: [], selectAll: true, selectAllExceptIds: this.selectAllExceptIds, filters: this.appliedFilters});
     });
     this.gridApi.addEventListener('headerUnCheckboxSelected', (e: any) => {
       console.log('headerUnCheckboxSelected', e);
       this.selectAll = false;
-      this.selectionApplied.emit({groupId: this.groupId, selectedIds: [], selectAll: false, selectAllExceptIds: [], filters: []});
+      this.selectAllExceptIds = [];
       this.gridApi.forEachNode(node => {
+        this.selectAllToggled = true;
         node.selectThisNode(false);
-      })
+      });
+      this.selectionApplied.emit({groupId: this.groupId, selectedIds: [], selectAll: false, selectAllExceptIds: [], filters: []});
     });
   }
 
   applySelectAll() {
     if (this.selectAll) {
       this.gridApi.forEachNode(node => {
-        node.selectThisNode(true);
+        this.selectAllToggled = true;
+        node.setSelected(true);
       })
     }
   }
 
-  onRowSelected($event: RowSelectedEvent<Restaurant>) {
-    console.log('Selected', $event.node.isSelected());
+  onRowSelected($event: RowSelectedEvent<Restaurant>, fromUi = true) {
+    if (this.selectAllToggled) {
+      this.selectAllToggled = false;
+      return;
+    }
     if ($event.node.isSelected() && $event.data) {
-      this.selectedIds.push($event.data?._id);
-      this.selectAllExceptIds = this.selectAllExceptIds.filter(id => id !== $event.data?._id);
+      if (!this.selectAll) this.selectedIds.push($event.data?.id);
+      this.selectAllExceptIds = this.selectAllExceptIds.filter(id => id !== $event.data?.id);
     } else if (!$event.node.isSelected() && $event.data) {
-      this.selectedIds = this.selectedIds.filter(id => id !== $event.data?._id);
-      this.selectAllExceptIds.push($event.data?._id);
+      this.selectedIds = this.selectedIds.filter(id => id !== $event.data?.id);
+      if (this.selectAll) this.selectAllExceptIds.push($event.data?.id);
     }
     this.selectionApplied.emit({groupId: this.groupId, selectedIds: this.selectedIds, selectAll: this.selectAll, selectAllExceptIds: this.selectAllExceptIds, filters: this.appliedFilters})
   }

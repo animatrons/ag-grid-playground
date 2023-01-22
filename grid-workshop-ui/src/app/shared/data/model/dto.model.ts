@@ -15,3 +15,19 @@ export interface SortParams {
   sort_field: string,
   sort_order: 1 | -1
 }
+
+export interface GridGroupSelection {
+  groupId: string | null;
+  selectedIds: string[];
+  selectAll: boolean;
+  selectAllExceptIds: string[];
+  filters: FilterParams[];
+}
+
+export const EMPTY_GROUP_SELECTION: GridGroupSelection = {
+  "groupId": null,
+  "selectedIds": [],
+  "selectAll": false,
+  "selectAllExceptIds": [],
+  "filters": []
+}
