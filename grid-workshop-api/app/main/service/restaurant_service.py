@@ -172,5 +172,5 @@ def get_restaurant_groups(args):
 
 def delete_restaurant_group(agrs):
     group_id = agrs.get('group_id')
-    RestaurantGroups().db().delete_one({'group_id': group_id})
+    RestaurantGroups().db().delete_many({'group_id': group_id})
     return {'message': 'DELETED OK'}, 200

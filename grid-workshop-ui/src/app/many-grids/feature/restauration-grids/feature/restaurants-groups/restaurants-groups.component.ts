@@ -16,6 +16,7 @@ import { EMPTY_GROUP_SELECTION, GridGroupSelection } from 'src/app/shared/data/m
 import { MatDialog } from '@angular/material/dialog';
 import { GroupPopupComponent } from '../../ui/group-popup/group-popup.component';
 import { ToastService } from 'src/app/shared/util/toast.service';
+import { ConformationDialogComponent } from 'src/app/shared/ui/conformation-dialog/conformation-dialog.component';
 
 @Component({
   selector: 'app-restaurants-groups',
@@ -81,7 +82,18 @@ export class RestaurantsGroupsComponent implements OnInit {
   }
 
   deleteGroup(groupId: string) {
+    const diaogRef = this.dialog.open(ConformationDialogComponent, {
+      data: {
+        title: 'Delete This Group',
+        message: 'Are you sure you want to delete this group?'
+      }
+    });
 
+    diaogRef.afterClosed().subscribe(response => {
+      if (response) {
+        this.store.dispatch(restaurantGroupsActions.deleteRestaurantGroup({groupId: groupId}));
+      }
+    });
   }
 
 }

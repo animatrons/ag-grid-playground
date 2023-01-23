@@ -36,7 +36,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 })
 export class TabMenuComponent {
 
-  @Input() itemName!: string ;
+  @Input() itemName!: string;
   @Input() itemId!: string;
   @Output() edit = new EventEmitter<{itemId: string}>();
   @Output() delete = new EventEmitter<{itemId: string}>();
@@ -46,7 +46,7 @@ export class TabMenuComponent {
   }
 
   emitDelet() {
-    this.edit.emit({itemId: this.itemId});
+    this.delete.emit({itemId: this.itemId});
   }
 
 }
