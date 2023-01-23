@@ -37,6 +37,10 @@
           <mat-icon mat-list-icon>table</mat-icon>
           <h4 mat-line>View Restaurants</h4>
         </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/manage">
+          <mat-icon mat-list-icon>table</mat-icon>
+          <h4 mat-line>Manage Restaurants</h4>
+        </a>
         <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/groups">
           <mat-icon mat-list-icon>table</mat-icon>
           <h4 mat-line>Group Restaurants</h4>
@@ -51,7 +55,7 @@
         </mat-icon>
       </a>
       <div [ngClass]="{'expanded': expandGeneric}" [hidden]="!expandGeneric" class="submenu">
-        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/view">
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/grids/restaurants/notthing">
           <mat-icon mat-list-icon>table</mat-icon>
           <h4 mat-line>Generic Grid</h4>
         </a>
