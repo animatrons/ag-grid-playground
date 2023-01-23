@@ -48,6 +48,7 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { GirdWrapperComponent } from './ui/gird-wrapper/gird-wrapper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConformationDialogComponent } from './ui/conformation-dialog/conformation-dialog.component';
 
 const modules = [
   CommonModule,
@@ -104,7 +105,8 @@ const modules = [
 
 @NgModule({
   declarations: [
-    GirdWrapperComponent
+    GirdWrapperComponent,
+    ConformationDialogComponent
   ],
   exports: [
     ...modules,

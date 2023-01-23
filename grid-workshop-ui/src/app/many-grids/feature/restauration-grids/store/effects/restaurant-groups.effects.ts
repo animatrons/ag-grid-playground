@@ -136,7 +136,7 @@ export class RestaurantGroupsEffects {
     deleteGroupSuccess$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(RestaurantGroupsActions.deleteRestaurantGroupSuccess),
-        tap(() => {
+        map(() => {
           this.toast.loadingComplete();
           console.log('[[RESTO GROUPS EFFECT]] Ok Deleted group');
           this.toast.success('Group Deleted')
