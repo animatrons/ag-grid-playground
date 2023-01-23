@@ -37,3 +37,28 @@ export const loadRestaurantsViewPageFailure = createAction(
   '[Restaurants] Load Restaurants View Grid Page Failure',
   props<{error: any}>()
 );
+
+// Save
+export const saveRestaurant = createAction(
+  '[Restaurants] Save Restaurants',
+  props<{restaurant: Restaurant}>()
+);
+export const saveRestaurantSuccess = createAction(
+  '[Restaurants] Save Restaurants Success'
+);
+export const saveRestaurantFailure = createAction(
+  '[Restaurants] Save Restaurants Failure',
+  props<{error: any}>()
+);
+// Save
+export const deleteRestaurant = createAction(
+  '[Restaurants] Delete Restaurants',
+  props<{id: string}>()
+);
+export const deleteRestaurantSuccess = createAction(
+  '[Restaurants] Delete Restaurants Success'
+);
+export const deleteRestaurantFailure = createAction(
+  '[Restaurants] Delete Restaurants Failure',
+  props<{error: any}>()
+);

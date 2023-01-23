@@ -35,6 +35,30 @@ def get_restaurants(args, sorts_param, filters):
 
     return Paginator(data, page, size, total), 200
 
+def save_restaurant(body):
+    if body['id']:
+        _id = ObjectId(body['id']) if body['id'] else ObjectId(generate_id())
+    if body['name'] and body['address']:
+        resto = Restaurant(**dict(
+            _id = _id,
+            URL = body['URL'],
+            name = body['name'],
+            address = body['address'],
+            address_line_2 = body['address_line_2'],
+            outcode = body['outcode'],
+            postcode = body['postcode'],
+            rating = body['rating'],
+            type_of_food = body['type_of_food'],
+        ))
+        resto.save()
+        return {'msg': 'Saved'}, 200
+    else:
+        return {'msg': 'Not enough info provided'}, 400
+
+def delete_restaurant(id):
+    Restaurant().db().delete_one({'_id': ObjectId(id)})
+    return {'msg': 'Deleted'}, 200
+
 def save_restaurant_group(body):
     ids = body.get('ids')
     name = body.get('name')

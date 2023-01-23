@@ -2,7 +2,7 @@ from flask import request
 from flask_restplus import Resource, reqparse
 
 from ..util.dto import RestaurantDto
-from ..service.restaurant_service import get_restaurants, save_restaurant_group, get_restaurant_groups, get_restaurant_group_page, delete_restaurant_group
+from ..service.restaurant_service import get_restaurants, save_restaurant_group, get_restaurant_groups, get_restaurant_group_page, delete_restaurant_group, save_restaurant, delete_restaurant
 
 
 api = RestaurantDto.api
@@ -34,6 +34,16 @@ class RestaurantList(Resource):
         data = get_restaurants(args, sorts, filters)
         return data
 
+    @api.doc('Save Restau')
+    @api.expect(_restaurant)
+    def put(self):
+        data = request.json
+        return save_restaurant(data)
+    
+    @api.doc('Delete Restau')
+    def delete(self):
+        args = request.args
+        return save_restaurant(args.get('id'))
 @api.route('/groups')
 class RestaurantGroups(Resource):
     parser = api.parser()

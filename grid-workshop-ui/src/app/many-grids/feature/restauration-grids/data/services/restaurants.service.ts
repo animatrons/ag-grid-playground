@@ -15,6 +15,19 @@ export class RestaurantsService {
   private restaurantsUrl = environment.baseUrl + environment.endpoints.restaurants;
   private restaurantsGroupUrl = environment.baseUrl + environment.endpoints.restaurantGroups;
 
+  saveResto(restaurant: Restaurant) {
+    return this.http.put(this.restaurantsUrl, restaurant);
+  }
+
+  deleteResto(id: string) {
+    const params = new HttpParams()
+      .set('id', id);
+    return this.http
+      .delete<any>(this.restaurantsGroupUrl, {
+        params
+      })
+  }
+
   getPage(page: number, size: number, sorts?: SortParams[], filter?: FilterParams[]): Observable<Pagination<Restaurant>> {
     const params = new HttpParams()
       .set('page', page)
@@ -28,7 +41,7 @@ export class RestaurantsService {
     return this.http
       .put<any>(this.restaurantsGroupUrl, {
         ...params
-      })
+      }).pipe(delay(2000))
   }
 
   getGroupPage(group_id: string, page: number, size: number, sort?: SortParams[], filter?: FilterParams[]) {
@@ -41,7 +54,7 @@ export class RestaurantsService {
   }
 
   getAllGroups() {
-    return this.http.get<RestaurantGroup[]>(this.restaurantsGroupUrl);
+    return this.http.get<RestaurantGroup[]>(this.restaurantsGroupUrl).pipe(delay(2000));
   }
 
   delete(groupId: string) {
@@ -50,6 +63,6 @@ export class RestaurantsService {
     return this.http
       .delete<any>(this.restaurantsGroupUrl, {
         params
-      })
+      }).pipe(delay(2000))
   }
 }
