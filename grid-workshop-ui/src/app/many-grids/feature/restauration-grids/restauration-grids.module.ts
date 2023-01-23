@@ -15,6 +15,7 @@ import { RestaurantsGroupsComponent } from './feature/restaurants-groups/restaur
 import { RestaurantGroupComponent } from './feature/restaurant-group/restaurant-group.component';
 import { GroupPopupComponent } from './ui/group-popup/group-popup.component';
 import { TabMenuComponent } from './ui/tab-menu/tab-menu.component';
+import { RestaurantsManageComponent } from './feature/restaurants-manage/restaurants-manage.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { TabMenuComponent } from './ui/tab-menu/tab-menu.component';
     RestaurantGroupComponent,
     GroupPopupComponent,
     TabMenuComponent,
+    RestaurantsManageComponent,
   ],
   imports: [
     CommonModule,

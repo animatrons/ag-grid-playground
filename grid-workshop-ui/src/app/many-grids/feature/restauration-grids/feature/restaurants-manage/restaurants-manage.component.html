@@ -1,0 +1,27 @@
+<app-gird-wrapper [title]="'Restaurants Management'">
+  <section controls class="flex flex-start gap-2">
+
+  </section>
+  <ag-grid-angular
+    grids
+    class="ag-theme-balham grid-w-100"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    [pagination]="true"
+    [paginationPageSize]="paginationPageSize"
+    [cacheBlockSize]="paginationPageSize"
+    [maxConcurrentDatasourceRequests]="2"
+    [cacheOverflowSize]="2"
+    [maxBlocksInCache]="100"
+    [rowSelection]="rowSelection"
+
+    [frameworkComponents]="frameworkComponents"
+    [domLayout]="'autoHeight'"
+
+    (gridReady)="onGridReady($event)"
+    (gridColumnsChanged)="sizeColsToFit()"
+    (cellDoubleClicked)="onCellDoubleClicked($event)"
+  >
+  </ag-grid-angular>
+</app-gird-wrapper>
