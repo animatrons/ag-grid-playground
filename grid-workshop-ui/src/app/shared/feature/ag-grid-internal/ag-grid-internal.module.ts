@@ -9,6 +9,7 @@ import { LinkCellComponent } from './components/link-cell/link-cell.component';
 import { CheckboxHeaderComponent } from './components/checkbox-header/checkbox-header.component';
 import { DynamicGridBasicComponent } from './girds/dynamic-grid-basic/dynamic-grid-basic.component';
 import { DynamicGridInfiniteComponent } from './girds/dynamic-grid-infinite/dynamic-grid-infinite.component';
+import { ButtonCellComponent } from './components/button-cell/button-cell.component';
 
 
 
@@ -20,6 +21,7 @@ import { DynamicGridInfiniteComponent } from './girds/dynamic-grid-infinite/dyna
     CheckboxHeaderComponent,
     DynamicGridBasicComponent,
     DynamicGridInfiniteComponent,
+    ButtonCellComponent,
   ],
   imports: [
     CommonModule,

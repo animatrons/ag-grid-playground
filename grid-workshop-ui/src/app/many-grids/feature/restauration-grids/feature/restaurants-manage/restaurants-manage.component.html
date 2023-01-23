@@ -5,7 +5,7 @@
   <ag-grid-angular
     grids
     class="ag-theme-balham grid-w-100"
-    [columnDefs]="columnDefs"
+    [columnDefs]="editableColDefs"
     [defaultColDef]="defaultColDef"
     [gridOptions]="gridOptions"
     [pagination]="true"
@@ -15,13 +15,14 @@
     [cacheOverflowSize]="2"
     [maxBlocksInCache]="100"
     [rowSelection]="rowSelection"
+    [suppressRowClickSelection]="true"
 
     [frameworkComponents]="frameworkComponents"
     [domLayout]="'autoHeight'"
 
     (gridReady)="onGridReady($event)"
     (gridColumnsChanged)="sizeColsToFit()"
-    (cellDoubleClicked)="onCellDoubleClicked($event)"
+
   >
   </ag-grid-angular>
 </app-gird-wrapper>

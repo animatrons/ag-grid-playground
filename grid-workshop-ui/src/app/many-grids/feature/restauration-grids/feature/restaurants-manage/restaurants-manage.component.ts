@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CellDoubleClickedEvent, ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
+import { CellDoubleClickedEvent, ColDef, ColGroupDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 import { SimpleTextColumnFilterComponent } from 'src/app/shared/feature/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
@@ -12,6 +12,7 @@ import { BasicDefaultColDef, RestaurantViewColDefs } from '../../data/models/res
 import { Restaurant } from '../../data/models/restaurant.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
 import { SortParams } from 'src/app/shared/data/model/dto.model';
+import { ButtonCellComponent } from 'src/app/shared/feature/ag-grid-internal/components/button-cell/button-cell.component';
 
 @Component({
   selector: 'app-restaurants-manage',
@@ -38,7 +39,52 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   }
 
   public page$: Observable<IGridWithPaginationState<Restaurant>> = new Observable();
-  public status$
+  public status$;
+
+  public editableColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
+    {
+      'field': 'select_all',
+      'headerName': '',
+      'filter': false,
+      'floatingFilter': false,
+      'width': 40,
+      'checkboxSelection': true,
+      'sortable': false,
+      'suppressSizeToFit': true,
+      'headerComponent': 'checkboxHeaderComponent'
+    },
+    {
+      'field': 'actions',
+      'headerName': '',
+      'filter': false,
+      'floatingFilter': false,
+      'sortable': false,
+      'width': 110,
+      'suppressSizeToFit': true,
+      'cellRenderer': ButtonCellComponent,
+      'cellRendererParams': {
+        'buttons': [
+          {
+            'icon': 'edit',
+            'label': 'edit',
+            'onClick': (data: Restaurant) => this.editRow(data)
+          },
+          {
+            'icon': 'delete',
+            'label': 'delete',
+            'color': 'red',
+            'onClick': (data: Restaurant) => this.deleteRow(data)
+          },
+          {
+            'icon': 'visibility',
+            'label': 'view',
+            'onClick': (data: Restaurant) => this.viewRowData(data)
+          },
+        ]
+      }
+    },
+    ...RestaurantViewColDefs
+  ]
 
   @HostBinding('style.flex-grow')
   flexGrow = '1';
@@ -49,9 +95,6 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-  }
-
-  sizeColsToFit() {
     this.gridOptions = {
       rowModelType: 'infinite',
       loadingOverlayComponent: LoadingSpinnerOverlayComponent,
@@ -61,7 +104,12 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
     }
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
-      // this.gridColumnApi?.autoSizeAllColumns();
+    }
+  }
+
+  sizeColsToFit() {
+    if (this.gridApi) {
+      this.gridApi.sizeColumnsToFit();
     }
   }
 
@@ -70,6 +118,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   }
 
   onGridReady(params: GridReadyEvent<Restaurant>) {
+    console.log('grid ready ');
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
@@ -80,6 +129,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
+        console.log('getting rows');
         this.gridApi.showLoadingOverlay();
 
         const page = Math.floor((params.endRow) / this.defaultPageSize) - 1;
@@ -92,6 +142,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
         const loading$ = loadinSubj.asObservable();
         this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
         this.page$.pipe(takeUntil(loading$)).subscribe(page => {
+          console.log('Got the page', page);
 
           if (page.loadStatus === 'LOADED') {
             params.successCallback(page.content, page.total)
@@ -107,6 +158,18 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
         })
       }
     }
+  }
+
+  editRow(data: Restaurant) {
+    console.log('Ok here to edit the row', data);
+  }
+
+  deleteRow(data: Restaurant) {
+    console.log('Ok here to delete the row', data);
+  }
+
+  viewRowData(data: Restaurant) {
+    console.log('Ok here to view the row', data);
   }
 
   onCellDoubleClicked($event: CellDoubleClickedEvent<Restaurant,any>) {
