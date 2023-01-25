@@ -1,0 +1,33 @@
+.status-bar-wrapper {
+  .pagination-wrapper {
+    padding: 1px;
+
+    .page-progress {
+      padding: 2px;
+      margin: 0px 7px;
+      text-align: center;
+    }
+    .paginate-btn {
+      padding: 2px;
+      margin: 0px 5px;
+      height: 35px;
+      line-height: 31px;
+      color: rgb(0, 48, 48);
+
+      mat-icon {
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      &.inactive {
+        color: rgb(185, 185, 185);
+      }
+
+      &.number {
+        &.active {
+          color: cyan;
+        }
+      }
+    }
+  }
+}

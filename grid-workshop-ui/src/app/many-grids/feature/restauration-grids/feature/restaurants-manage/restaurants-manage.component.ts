@@ -13,6 +13,7 @@ import { Restaurant } from '../../data/models/restaurant.model';
 import { formatColumnFilter } from 'src/app/shared/util/grid.utils';
 import { SortParams } from 'src/app/shared/data/model/dto.model';
 import { ButtonCellComponent } from 'src/app/shared/feature/ag-grid-internal/components/button-cell/button-cell.component';
+import { CustomStatusBarPaginationComponent } from 'src/app/shared/feature/ag-grid-internal/components/custom-status-bar-pagination/custom-status-bar-pagination.component';
 
 @Component({
   selector: 'app-restaurants-manage',
@@ -100,6 +101,13 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
       loadingOverlayComponent: LoadingSpinnerOverlayComponent,
       loadingOverlayComponentParams: {
         loadingMessage: 'Loading...'
+      },
+      statusBar: {
+        statusPanels: [
+          {
+            statusPanel: CustomStatusBarPaginationComponent,
+          }
+        ]
       }
     }
     if (this.gridApi) {
@@ -118,7 +126,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   }
 
   onGridReady(params: GridReadyEvent<Restaurant>) {
-    console.log('grid ready ');
+    // console.log('grid ready ');
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
@@ -129,7 +137,6 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
   createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
-        console.log('getting rows');
         this.gridApi.showLoadingOverlay();
 
         const page = Math.floor((params.endRow) / this.defaultPageSize) - 1;
@@ -142,8 +149,6 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
         const loading$ = loadinSubj.asObservable();
         this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
         this.page$.pipe(takeUntil(loading$)).subscribe(page => {
-          console.log('Got the page', page);
-
           if (page.loadStatus === 'LOADED') {
             params.successCallback(page.content, page.total)
             this.gridApi.hideOverlay();

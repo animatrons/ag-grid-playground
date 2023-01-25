@@ -1,0 +1,27 @@
+<div class="status-bar-wrapper flex-row between">
+  <div class="pagination-wrapper flex-row between ailgn-items-center">
+    <div class="page-progress">
+      Page [{{((currentPage$ | async) ?? 0) + 1}}] of [{{lastPage$ | async}}]
+    </div>
+
+    <button class="paginate-btn" (click)="onBtnFirst()" [disabled]="(currentPage$ | async) === 0" [ngClass]="{'inactive': (currentPage$ | async) === 0}" mat-icon-button>
+      <mat-icon>first_page</mat-icon>
+    </button>
+
+    <button class="paginate-btn" (click)="onBtnPrevious()" [disabled]="(currentPage$ | async) === 0" [ngClass]="{'inactive': (currentPage$ | async) === 0}" mat-icon-button>
+      <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+
+    <div class="page-progress">
+      Page [{{((currentPage$ | async) ?? 0) + 1}}] of [{{lastPage$ | async}}]
+    </div>
+
+    <button class="paginate-btn" (click)="onBtnNext()" [disabled]="((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)" [ngClass]="{'inactive': ((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)}" mat-icon-button>
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+
+    <button class="paginate-btn" (click)="onBtnLast()" [disabled]="((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)" [ngClass]="{'inactive': ((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)}" mat-icon-button>
+      <mat-icon>last_page</mat-icon>
+    </button>
+  </div>
+</div>

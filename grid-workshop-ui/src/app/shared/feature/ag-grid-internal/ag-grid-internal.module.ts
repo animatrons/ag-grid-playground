@@ -10,6 +10,7 @@ import { CheckboxHeaderComponent } from './components/checkbox-header/checkbox-h
 import { DynamicGridBasicComponent } from './girds/dynamic-grid-basic/dynamic-grid-basic.component';
 import { DynamicGridInfiniteComponent } from './girds/dynamic-grid-infinite/dynamic-grid-infinite.component';
 import { ButtonCellComponent } from './components/button-cell/button-cell.component';
+import { CustomStatusBarPaginationComponent } from './components/custom-status-bar-pagination/custom-status-bar-pagination.component';
 
 
 
@@ -22,6 +23,7 @@ import { ButtonCellComponent } from './components/button-cell/button-cell.compon
     DynamicGridBasicComponent,
     DynamicGridInfiniteComponent,
     ButtonCellComponent,
+    CustomStatusBarPaginationComponent,
   ],
   imports: [
     CommonModule,
