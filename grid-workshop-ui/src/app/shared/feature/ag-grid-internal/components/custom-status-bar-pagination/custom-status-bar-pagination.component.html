@@ -12,14 +12,14 @@
       <mat-icon>arrow_back_ios</mat-icon>
     </button>
 
-    <div class="pageination-numbers">
-      <span *ngIf="(currentPage$ | async)! >= 3"> . . . </span>
-      <ng-container *ngFor="let page of ((currentPage$ | async)! | paginationRange: (lastPage$ | async)!)">
+    <div class="pagination-numbers">
+      <span class="pagination-etc" *ngIf="(currentPage$ | async)! >= 3"> . . . </span>
+      <ng-container *ngFor="let page of ((currentPage$ | async)! | paginationRange: (lastPage$ | async)! : 5)">
         <button mat-flat-button (click)="onBtnPageNbr(page)" class="paginate-btn number" [ngClass]="{'active': (currentPage$ | async) === page}">
           {{page + 1}}
         </button>
       </ng-container>
-      <span *ngIf="(lastPage$ | async)! - (currentPage$ | async)! > 5"> . . . </span>
+      <span class="pagination-etc" *ngIf="(lastPage$ | async)! - (currentPage$ | async)! > 5"> . . . </span>
     </div>
 
     <button class="paginate-btn" (click)="onBtnNext()" [disabled]="((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)" [ngClass]="{'inactive': ((currentPage$ | async) ?? 0) + 1 === (lastPage$ | async)}" mat-icon-button>

@@ -7,6 +7,13 @@
       margin: 0px 7px;
       text-align: center;
     }
+    .pagination-numbers {
+      margin: 0px 5px;
+      .pagination-etc {
+        // letter-spacing: 2px;
+        font-size: large;
+      }
+    }
     .paginate-btn {
       padding: 2px;
       margin: 0px 5px;
@@ -25,6 +32,7 @@
 
       &.number {
         margin: 0px !important;
+        min-width: 38px !important;
         color: gray;
         &.active {
           color: rgb(1, 141, 141);

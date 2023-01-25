@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NumberValueAccessor } from '@angular/forms';
 import { IStatusPanelAngularComp } from 'ag-grid-angular';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
@@ -17,9 +16,6 @@ export class CustomStatusBarPaginationComponent implements IStatusPanelAngularCo
   public pageSize$: BehaviorSubject<number> = new BehaviorSubject(10);
   public total$: BehaviorSubject<number> = new BehaviorSubject(1500);
 
-  public count = 0;
-
-
   agInit(params: IStatusPanelParams): void {
     this.params = params;
     this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
@@ -27,7 +23,6 @@ export class CustomStatusBarPaginationComponent implements IStatusPanelAngularCo
   }
 
   onGridReady() {
-    this.count = this.params.api.getModel().getRowCount();
     this.updatePageinationStatus();
   }
 
@@ -41,8 +36,7 @@ export class CustomStatusBarPaginationComponent implements IStatusPanelAngularCo
     this.total$.next(total);
     this.pageSize$.next(pageSize);
     this.lastPage$.next(lastPage);
-
-    console.log('[[StatusBar]] Grid model updated: ', this.currentPage$.value, this.lastPage$.value);
+    // console.log('[[StatusBar]] Grid model updated: ', this.currentPage$.value, this.lastPage$.value);
   }
 
   onBtnFirst() {
