@@ -24,8 +24,10 @@
       }
 
       &.number {
+        margin: 0px !important;
+        color: gray;
         &.active {
-          color: cyan;
+          color: rgb(1, 141, 141);
         }
       }
     }

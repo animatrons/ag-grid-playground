@@ -14,7 +14,7 @@
 
     <div class="pageination-numbers">
       <span *ngIf="(currentPage$ | async)! >= 3"> . . . </span>
-      <ng-container *ngFor="let page of (((currentPage$ | async)! < 3 ? 0 : (currentPage$ | async)! - 1) | range : ((currentPage$ | async)! < 3 ? 0 : (currentPage$ | async)! - 1) + ((lastPage$ | async)! - (currentPage$ | async)! > 5 ? 5 : (lastPage$ | async)! - (currentPage$ | async)!))">
+      <ng-container *ngFor="let page of ((currentPage$ | async)! | paginationRange: (lastPage$ | async)!)">
         <button mat-flat-button (click)="onBtnPageNbr(page)" class="paginate-btn number" [ngClass]="{'active': (currentPage$ | async) === page}">
           {{page + 1}}
         </button>

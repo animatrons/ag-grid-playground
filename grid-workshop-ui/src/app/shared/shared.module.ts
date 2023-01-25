@@ -49,6 +49,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { GirdWrapperComponent } from './ui/gird-wrapper/gird-wrapper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConformationDialogComponent } from './ui/conformation-dialog/conformation-dialog.component';
+import { NumberRangePipe } from './ui/pipes/number-range.pipe';
+import { PaginationRangePipe } from './ui/pipes/pagination-range.pipe';
 
 const modules = [
   CommonModule,
@@ -100,17 +102,25 @@ const modules = [
   FormsModule,
 
   AgGridModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+]
+
+const componentExports = [
+  NumberRangePipe,
+  GirdWrapperComponent,
+  PaginationRangePipe
 ]
 
 @NgModule({
   declarations: [
     GirdWrapperComponent,
-    ConformationDialogComponent
+    ConformationDialogComponent,
+    NumberRangePipe,
+    PaginationRangePipe
   ],
   exports: [
     ...modules,
-    GirdWrapperComponent
+    ...componentExports,
   ],
   imports: [
     ...modules,

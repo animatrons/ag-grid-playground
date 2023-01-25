@@ -12,10 +12,10 @@ import { BehaviorSubject } from 'rxjs';
 export class CustomStatusBarPaginationComponent implements IStatusPanelAngularComp {
 
   params!: IStatusPanelParams;
-  public currentPage$ = new BehaviorSubject(1);
-  public lastPage$ = new BehaviorSubject(300);
-  public pageSize$ = new BehaviorSubject(10);
-  public total$ = new BehaviorSubject(1500);
+  public currentPage$: BehaviorSubject<number> = new BehaviorSubject(1);
+  public lastPage$: BehaviorSubject<number> = new BehaviorSubject(300);
+  public pageSize$: BehaviorSubject<number> = new BehaviorSubject(10);
+  public total$: BehaviorSubject<number> = new BehaviorSubject(1500);
 
   public count = 0;
 
@@ -62,6 +62,11 @@ export class CustomStatusBarPaginationComponent implements IStatusPanelAngularCo
 
   onBtnPrevious() {
     this.params.api.paginationGoToPreviousPage();
+    this.updatePageinationStatus();
+  }
+
+  onBtnPageNbr(nbr: number) {
+    this.params.api.paginationGoToPage(nbr);
     this.updatePageinationStatus();
   }
 
