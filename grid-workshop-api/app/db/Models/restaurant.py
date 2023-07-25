@@ -18,6 +18,15 @@ class Restaurant(Document):
     rating = None
     type_of_food = None
 
+    URL_type = 'string'
+    name_type = 'string'
+    address_type = 'string'
+    address_line_2_type = 'string'
+    outcode_type = 'string'
+    postcode_type = 'string'
+    rating_type = 'number'
+    type_of_food_type = 'string'
+
     def parse_ints(self):
         if self.rating:
             self.rating = int(self.rating)
@@ -36,3 +45,14 @@ class RestaurantGroups(Document):
     postcode = None
     rating = None
     type_of_food = None
+
+    group_id_type = str
+    group_name_type = str
+    URL_type = str
+    name_type = str
+    address_type = str
+    address_line_2_type = str
+    outcode_type = str
+    postcode_type = str
+    rating_type = int
+    type_of_food_type = str

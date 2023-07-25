@@ -27,18 +27,6 @@ export const BasicDefaultColDef: ColDef<Restaurant> = {
 
 export const RestaurantViewColDefs: (ColDef<Restaurant> | ColGroupDef)[] = [
   {
-    'field': 'link',
-    'filter': false,
-    'cellRenderer': LinkCellComponent,
-    'floatingFilter': false,
-    'width': 40,
-    'suppressSizeToFit': true,
-    'cellRendererParams': {
-      'urlField': 'URL'
-    },
-    'sortable': false,
-  },
-  {
     'field': 'name',
   },
   {

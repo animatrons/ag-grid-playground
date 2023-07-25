@@ -1,7 +1,7 @@
 import { Component, HostBinding, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { delay, Observable } from 'rxjs';
+import { catchError, delay, Observable, of } from 'rxjs';
 import { DataService } from 'src/app/shared/data/data.service';
 import { OlympicData, olymColumnDefs } from 'src/app/shared/data/model/data.models';
 
@@ -30,7 +30,7 @@ export class BasicGridPlusComponent implements OnInit {
   @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
 
   ngOnInit(): void {
-    this.rowData$ = this.dataService.loadOlympicData().pipe(delay(2000));
+    this.rowData$ = this.dataService.loadOlympicData().pipe(delay(2000), catchError(err => of([])));
   }
 
   onGridReady(params: GridReadyEvent) {

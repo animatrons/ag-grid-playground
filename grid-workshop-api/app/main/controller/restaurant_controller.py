@@ -2,7 +2,8 @@ from flask import request
 from flask_restplus import Resource, reqparse
 
 from ..util.dto import RestaurantDto
-from ..service.restaurant_service import get_restaurants, save_restaurant_group, get_restaurant_groups, get_restaurant_group_page, delete_restaurant_group, save_restaurant, delete_restaurant
+from ..service.restaurant_service import get_restaurants, save_restaurant_group, get_restaurant_groups, get_restaurant_group_page
+from ..service.restaurant_service import delete_restaurant_group, save_restaurant, delete_restaurant, get_restaurant_attr_defs
 
 
 api = RestaurantDto.api
@@ -78,3 +79,9 @@ class RestaurantGroups(Resource):
     def delete(self):
         args = request.args
         return delete_restaurant_group(args)
+
+@api.route('/model')
+class RestaurantModel(Resource):
+    @api.doc('Get type attributes defs')
+    def get(self):
+        return get_restaurant_attr_defs()

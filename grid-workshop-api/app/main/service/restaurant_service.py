@@ -5,6 +5,8 @@ from app.main.util.paginator import Paginator
 from app.main.util.filter import build_query
 from app.main.util.strings import generate_id
 from bson.objectid import ObjectId
+import logging
+logger = logging.getLogger(__name__)
 
 def get_restaurants(args, sorts_param, filters):
     # SORT
@@ -198,3 +200,11 @@ def delete_restaurant_group(agrs):
     group_id = agrs.get('group_id')
     RestaurantGroups().db().delete_many({'group_id': group_id})
     return {'message': 'DELETED OK'}, 200
+
+def get_restaurant_attr_defs():
+    try:
+        attrs = Restaurant().get_field_defs()
+        return attrs
+    except AttributeError as e:
+        logger.error(e.args, e.__traceback__)
+        return {'Error': e.args}, 500

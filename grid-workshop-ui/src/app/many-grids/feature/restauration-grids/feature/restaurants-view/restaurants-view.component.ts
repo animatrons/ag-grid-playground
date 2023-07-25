@@ -88,21 +88,25 @@ export class RestaurantsViewComponent implements OnInit, OnDestroy {
         const filter = formatColumnFilter(params.filterModel);
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
-        this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
-        this.page$.pipe(takeUntil(loading$)).subscribe(page => {
+        this.gridApi.hideOverlay();
+        this.gridApi.sizeColumnsToFit();
+        params.successCallback([], undefined)
+        this.gridApi.showNoRowsOverlay()
+        // this.store.dispatch(restaurantsActions.getRestaurantsViewPage({page: page, size: this.defaultPageSize, sorts, filter}));
+        // this.page$.pipe(takeUntil(loading$)).subscribe(page => {
 
-          if (page.loadStatus === 'LOADED') {
-            params.successCallback(page.content, page.total)
-            this.gridApi.hideOverlay();
-            this.gridApi.sizeColumnsToFit();
-            loadinSubj.next('')
-          }
-          if (page.loadStatus === 'NOT_LOADED') {
-            params.failCallback();
-            this.gridApi.hideOverlay();
-            loadinSubj.next('')
-          }
-        })
+        //   if (page.loadStatus === 'LOADED') {
+        //     params.successCallback(page.content, page.total)
+        //     this.gridApi.hideOverlay();
+        //     this.gridApi.sizeColumnsToFit();
+        //     loadinSubj.next('')
+        //   }
+        //   if (page.loadStatus === 'NOT_LOADED') {
+        //     params.failCallback();
+        //     this.gridApi.hideOverlay();
+        //     loadinSubj.next('')
+        //   }
+        // })
       }
     }
   }

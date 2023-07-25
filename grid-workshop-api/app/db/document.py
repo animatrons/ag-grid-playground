@@ -1,6 +1,6 @@
 from app.db.connection import get_next_sequence_value, mongo
 from app.main.util.strings import generate_id
-
+from typing import get_type_hints
 
 class Document:
 
@@ -46,6 +46,8 @@ class Document:
 
     def to_dict(self):
         return self.__dict__
+    
+    
 
     def from_dict(self, d):
         if d:
@@ -53,6 +55,18 @@ class Document:
         else:
             self.id = None
         return self
+
+    @classmethod
+    def get_field_defs(cls):
+        attrs = [(name, value) for name, value in vars(cls).items() if not callable(getattr(cls, name)) and not name.startswith("__")]
+        attr_types = [(name.replace('_type', ''), value) for name, value in attrs if name.endswith('_type')]
+        if len(attr_types) == 0:
+            raise AttributeError('Attribute types are not defined')
+        return [dict({
+            'code': name, 
+            'type': value,
+            'label': name.replace('_', ' ').capitalize(),
+            'mandatory': True}) for name, value in attr_types]
 
     @classmethod
     def get_all(cls, query={}, **kwargs):

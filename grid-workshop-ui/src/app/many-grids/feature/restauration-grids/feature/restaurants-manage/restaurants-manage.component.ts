@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CellDoubleClickedEvent, ColDef, ColGroupDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
+import { CellDoubleClickedEvent, ColDef, ColGroupDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams, TextFilterModel } from 'ag-grid-community';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { LoadingSpinnerOverlayComponent } from 'src/app/shared/feature/ag-grid-internal/components/loading-spinner-overlay/loading-spinner-overlay.component';
 import { SimpleTextColumnFilterComponent } from 'src/app/shared/feature/ag-grid-internal/components/simple-text-column-filter/simple-text-column-filter.component';
@@ -52,7 +52,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
       'checkboxSelection': true,
       'sortable': false,
       'suppressSizeToFit': true,
-      'headerComponent': 'checkboxHeaderComponent'
+      'headerComponent': 'checkboxHeaderComponent',
     },
     {
       'field': 'actions',
@@ -60,7 +60,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
       'filter': false,
       'floatingFilter': false,
       'sortable': false,
-      'width': 110,
+      'width': 140,
       'suppressSizeToFit': true,
       'cellRenderer': ButtonCellComponent,
       'cellRendererParams': {
@@ -81,6 +81,11 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
             'label': 'view',
             'onClick': (data: Restaurant) => this.viewRowData(data)
           },
+          {
+            'icon': 'open_in_new',
+            'label': 'link',
+            'onClick': (data: Restaurant) => window.open(data.URL, '_blank')
+          }
         ]
       }
     },
@@ -144,6 +149,7 @@ export class RestaurantsManageComponent implements OnInit, OnDestroy {
           sort_field: m.colId,
           sort_order: m.sort === 'asc' ? 1 : -1
         }));
+        let agFilter: TextFilterModel
         const filter = formatColumnFilter(params.filterModel);
         const loadinSubj = new Subject();
         const loading$ = loadinSubj.asObservable();
