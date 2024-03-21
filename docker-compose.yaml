@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  grid-workshop-mongo:
+    container_name: mongo
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: client_root
+      MONGO_INITDB_ROOT_PASSWORD: client_R0ot_pw0rd
+    volumes:
+      - grid-workshop-mongo:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
+  
+  grid-workshop-api:
+    container_name: grid-workshop-api
+    build: ./grid-workshop-api
+    environment:
+      - MONGO_URI=mongodb://client_root:client_R0ot_pw0rd@mongo:27017/many-grids?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
+    ports:
+      - '5000:5000'
+    depends_on:
+      - grid-workshop-mongo
+
+volumes:
+  grid-workshop-mongo:

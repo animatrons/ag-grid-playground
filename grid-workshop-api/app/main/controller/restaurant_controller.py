@@ -45,6 +45,7 @@ class RestaurantList(Resource):
     def delete(self):
         args = request.args
         return save_restaurant(args.get('id'))
+
 @api.route('/groups')
 class RestaurantGroups(Resource):
     parser = api.parser()

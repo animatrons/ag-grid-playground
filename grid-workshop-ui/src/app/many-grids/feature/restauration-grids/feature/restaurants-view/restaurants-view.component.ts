@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CellClickedEvent, ColDef, Column, ColumnApi, GridApi, GridOptions, GridParams, GridReadyEvent, IDatasource, IGetRowsParams, IServerSideDatasource, IServerSideGetRowsParams } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, ColumnApi, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
 import { Restaurant } from '../../data/models/restaurant.model';
 
 import * as fromRestaurants from '../../store/selectors/restaurants.selectors';
